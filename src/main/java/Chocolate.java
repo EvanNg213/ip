@@ -40,6 +40,12 @@ public class Chocolate {
                 System.out.println("Nice! I've marked this task as done:");
                 System.out.println("  [X] " + tasks[taskIndex]);
                 System.out.println(divider);
+            } else if (command.startsWith("unmark ")) {
+                int taskIndex = Integer.parseInt(command.substring(7)) - 1;
+                isDone[taskIndex] = false;
+                System.out.println("OK, I've marked this task as not done yet:");
+                System.out.println("  [ ] " + tasks[taskIndex]);
+                System.out.println(divider);
             } else {
                 tasks[numberOfTasks] = command;
                 numberOfTasks++;
