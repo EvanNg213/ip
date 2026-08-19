@@ -6,9 +6,9 @@ public class Chocolate {
 
         System.out.println(divider);
         System.out.println(banner);
-        System.out.println("Hello! I'm Chocolate.");
-        System.out.println("What can I do for you?");
+        System.out.println("Hello! My name is Chocolate!");
+        System.out.println("How can I help you?");
         System.out.println(divider);
-        System.out.println("Bye. Hope to see you again soon!");
+        System.out.println("Thank you and Goodbye!");
     }
 }
