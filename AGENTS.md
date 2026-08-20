@@ -28,6 +28,14 @@ Unless the user says otherwise, assume that you are assisting a student working 
 
 Ensure that Java 25 is used when running the application or build tasks. On macOS, use `sdk use java 25.0.3.fx-zulu` to switch to Java 25 if needed.
 
+## UI testing
+
+After each code update that changes Chocolate's console behavior:
+
+* Update `test/ui-test-plan.md` with relevant test cases and exact expected output.
+* Invoke the `$test-ui` skill, which compiles the project and runs the recorded console tests.
+* Resolve any failed test before considering the code update complete. Keep the test transcript in the task handoff or final report.
+
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.
