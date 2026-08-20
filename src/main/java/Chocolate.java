@@ -22,7 +22,8 @@ public class Chocolate {
 
             System.out.println(divider);
 
-            if (command.equals("bye")) {
+            try {
+                if (command.equals("bye")) {
                 System.out.println("Thank you and see you again");
                 System.out.println(divider);
                 break;
@@ -44,8 +45,12 @@ public class Chocolate {
                 System.out.println("Alright, I have marked this task as not done yet:");
                 System.out.println("  [ ] " + tasks[taskIndex].getDescription());
                 System.out.println(divider);
-            } else if (command.startsWith("todo ")) {
-                String description = command.substring("todo ".length());
+            } else if (command.equals("todo") || command.startsWith("todo ")) {
+                String description = command.substring("todo".length()).trim();
+                if (description.isEmpty()) {
+                    throw new ChocolateException(
+                            "Please provide a valid description after the command you used!");
+                }
                 tasks[numberOfTasks] = new Todo(description);
                 System.out.println("Got it. I've added this task:");
                 System.out.println("  " + tasks[numberOfTasks]);
@@ -81,9 +86,11 @@ public class Chocolate {
                 System.out.println("Now you have " + numberOfTasks + " tasks in the list.");
                 System.out.println(divider);
             } else {
-                tasks[numberOfTasks] = new Task(command);
-                numberOfTasks++;
-                System.out.println("added: " + command);
+                throw new ChocolateException(
+                        "That is not a valid command. Please try any of these: todo, deadline, event, list, mark, unmark, or bye.");
+            }
+            } catch (ChocolateException e) {
+                System.out.println("Oops! " + e.getMessage());
                 System.out.println(divider);
             }
         }

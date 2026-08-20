@@ -55,3 +55,43 @@ Alright, I have marked this task as not done yet:
 Thank you and see you again
 **************************************
 ```
+
+## Test: Reject an empty todo without changing the task list
+
+Aim: Verify empty todo commands show an error and do not add a task.
+
+### Input
+```text
+todo
+list
+todo read book
+list
+bye
+```
+
+### Expected output
+```text
+**************************************
+Chocolate
+Hi, my name is Chocolate!
+How may I help you today?
+**************************************
+**************************************
+Oops! A todo needs a description. Example: todo borrow book
+**************************************
+**************************************
+Here are the tasks in your list:
+**************************************
+**************************************
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+**************************************
+**************************************
+Here are the tasks in your list:
+1.[T][ ] read book
+**************************************
+**************************************
+Thank you and see you again
+**************************************
+```
