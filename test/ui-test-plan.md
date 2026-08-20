@@ -77,7 +77,7 @@ Hi, my name is Chocolate!
 How may I help you today?
 **************************************
 **************************************
-Oops! A todo needs a description. Example: todo borrow book
+Oops! Please provide a valid description after the command you used!
 **************************************
 **************************************
 Here are the tasks in your list:
@@ -90,6 +90,67 @@ Now you have 1 tasks in the list.
 **************************************
 Here are the tasks in your list:
 1.[T][ ] read book
+**************************************
+**************************************
+Thank you and see you again
+**************************************
+```
+
+## Test: Delete a task without changing the list after an invalid deletion
+
+Aim: Verify deletion removes the chosen task and invalid deletion leaves the list unchanged.
+
+### Input
+```text
+todo read book
+deadline return book /by Sunday
+event project meeting /from Mon 2pm /to 4pm
+delete 2
+list
+delete 3
+list
+bye
+```
+
+### Expected output
+```text
+**************************************
+Chocolate
+Hi, my name is Chocolate!
+How may I help you today?
+**************************************
+**************************************
+Got it. I've added this task:
+  [T][ ] read book
+Now you have 1 tasks in the list.
+**************************************
+**************************************
+Got it. I've added this task:
+  [D][ ] return book (by: Sunday)
+Now you have 2 tasks in the list.
+**************************************
+**************************************
+Got it. I've added this task:
+  [E][ ] project meeting (from: Mon 2pm to: 4pm)
+Now you have 3 tasks in the list.
+**************************************
+**************************************
+Got it. I have removed the task:
+  [D][ ] return book (by: Sunday)
+You now have 2 tasks left in your list!
+**************************************
+**************************************
+Here are the tasks in your list:
+1.[T][ ] read book
+2.[E][ ] project meeting (from: Mon 2pm to: 4pm)
+**************************************
+**************************************
+Oops! That task number does not exist in your list!
+**************************************
+**************************************
+Here are the tasks in your list:
+1.[T][ ] read book
+2.[E][ ] project meeting (from: Mon 2pm to: 4pm)
 **************************************
 **************************************
 Thank you and see you again
