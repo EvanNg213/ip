@@ -18,15 +18,18 @@ public class TaskList {
         tasks.add(task);
     }
 
-    public Task delete(int index) {
+    public Task delete(int index) throws ChocolateException {
+        ensureValidIndex(index);
         return tasks.remove(index);
     }
 
-    public void mark(int index) {
+    public void mark(int index) throws ChocolateException {
+        ensureValidIndex(index);
         tasks.get(index).markAsDone();
     }
 
-    public void unmark(int index) {
+    public void unmark(int index) throws ChocolateException {
+        ensureValidIndex(index);
         tasks.get(index).markAsUndone();
     }
 
@@ -41,5 +44,11 @@ public class TaskList {
     /** Returns a read-only view for services that need to inspect all tasks. */
     public List<Task> getAll() {
         return Collections.unmodifiableList(tasks);
+    }
+
+    private void ensureValidIndex(int index) throws ChocolateException {
+        if (index < 0 || index >= tasks.size()) {
+            throw new ChocolateException("That task number does not exist in your list!");
+        }
     }
 }
