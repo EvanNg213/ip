@@ -2,61 +2,42 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.Scanner;
 
 /** Start application. */
 public class Chocolate {
     public static void main(String[] args) {
-        String divider = "**************************************";
-        String banner = "Chocolate";
-
+        Ui ui = new Ui();
         Storage storage = new Storage(Path.of("data", "duke.txt"));
         TaskList tasks;
         try {
             tasks = new TaskList(storage.load());
         } catch (IOException e) {
             tasks = new TaskList();
-            System.out.println("Warning: Saved tasks could not be loaded. Starting with an empty list.");
+            ui.showLoadingError();
         }
 
-        System.out.println(divider);
-        System.out.println(banner);
-        System.out.println("Hi, my name is Chocolate!");
-        System.out.println("How may I help you today?");
-        System.out.println(divider);
-
-        Scanner scanner = new Scanner(System.in);
+        ui.showWelcome();
 
         while (true) {
-            String command = scanner.nextLine();
-
-            System.out.println(divider);
+            String command = ui.readCommand();
+            ui.showLine();
 
             try {
                 if (command.equals("bye")) {
-                System.out.println("Thank you and see you again");
-                System.out.println(divider);
-                break;
+                    ui.showGoodbye();
+                    break;
             } else if (command.equals("list")) {
-                System.out.println("Here are the tasks in your list:");
-                for (int i = 0; i < tasks.size(); i++) {
-                    System.out.println((i + 1) + "." + tasks.get(i));
-                }
-                System.out.println(divider);
+                ui.showTaskList(tasks);
             } else if (command.startsWith("mark ")) {
                 int taskIndex = Integer.parseInt(command.substring(5)) - 1;
                 tasks.mark(taskIndex);
                 storage.save(tasks);
-                System.out.println("Well Done! I have marked this task as done:");
-                System.out.println("  [X] " + tasks.get(taskIndex).getDescription());
-                System.out.println(divider);
+                ui.showMarked(tasks.get(taskIndex));
             } else if (command.startsWith("unmark ")) {
                 int taskIndex = Integer.parseInt(command.substring(7)) - 1;
                 tasks.unmark(taskIndex);
                 storage.save(tasks);
-                System.out.println("Alright, I have marked this task as not done yet:");
-                System.out.println("  [ ] " + tasks.get(taskIndex).getDescription());
-                System.out.println(divider);
+                ui.showUnmarked(tasks.get(taskIndex));
             } else if (command.equals("todo") || command.startsWith("todo ")) {
                 String description = command.substring("todo".length()).trim();
                 if (description.isEmpty()) {
@@ -65,10 +46,7 @@ public class Chocolate {
                 }
                 tasks.add(new Todo(description));
                 storage.save(tasks);
-                System.out.println("Got it. I've added this task:");
-                System.out.println("  " + tasks.get(tasks.size() - 1));
-                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-                System.out.println(divider);
+                ui.showAdded(tasks.get(tasks.size() - 1), tasks.size());
             } else if (command.startsWith("deadline ")) {
                 String details = command.substring("deadline ".length());
                 int byIndex = details.indexOf(" /by ");
@@ -79,10 +57,7 @@ public class Chocolate {
 
                 tasks.add(new Deadline(description, by));
                 storage.save(tasks);
-                System.out.println("Got it. I've added this task:");
-                System.out.println("  " + tasks.get(tasks.size() - 1));
-                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-                System.out.println(divider);
+                ui.showAdded(tasks.get(tasks.size() - 1), tasks.size());
             } else if (command.startsWith("event ")) {
                 String details = command.substring("event ".length());
                 int fromIndex = details.indexOf(" /from ");
@@ -94,10 +69,7 @@ public class Chocolate {
 
                 tasks.add(new Event(description, from, to));
                 storage.save(tasks);
-                System.out.println("Got it. I've added this task:");
-                System.out.println("  " + tasks.get(tasks.size() - 1));
-                System.out.println("Now you have " + tasks.size() + " tasks in the list.");
-                System.out.println(divider);
+                ui.showAdded(tasks.get(tasks.size() - 1), tasks.size());
             } else if (command.equals("delete") || command.startsWith("delete ")) {
                     String taskNumberText = command.substring("delete".length()).trim();
 
@@ -120,23 +92,17 @@ public class Chocolate {
                     Task deletedTask = tasks.delete(taskId);
                     storage.save(tasks);
 
-                    System.out.println("Got it. I have removed the task:");
-                    System.out.println("  " + deletedTask);
-                    System.out.println("You now have " + tasks.size() + " tasks left in your list!");
-                    System.out.println(divider);
+                    ui.showDeleted(deletedTask, tasks.size());
                 } else {
                 throw new ChocolateException(
                         "That is not a valid command. Please try any of these: todo, deadline, event, list, mark, unmark, delete, or bye.");
             }
             } catch (ChocolateException e) {
-                System.out.println("Oops! " + e.getMessage());
-                System.out.println(divider);
+                ui.showError(e.getMessage());
             } catch (DateTimeParseException e) {
-                System.out.println("Oops! Please use the date format yyyy-MM-dd.");
-                System.out.println(divider);
+                ui.showError("Please use the date format yyyy-MM-dd.");
             } catch (IOException e) {
-                System.out.println("Oops! I could not save your tasks to the hard disk.");
-                System.out.println(divider);
+                ui.showError("I could not save your tasks to the hard disk.");
             }
         }
     }
