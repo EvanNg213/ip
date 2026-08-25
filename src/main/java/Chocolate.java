@@ -1,3 +1,5 @@
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -7,7 +9,14 @@ public class Chocolate {
         String divider = "**************************************";
         String banner = "Chocolate";
 
-        ArrayList<Task> tasks = new ArrayList<>();
+        Storage storage = new Storage(Path.of("data", "duke.txt"));
+        ArrayList<Task> tasks;
+        try {
+            tasks = storage.load();
+        } catch (IOException e) {
+            tasks = new ArrayList<>();
+            System.out.println("Warning: Saved tasks could not be loaded. Starting with an empty list.");
+        }
 
         System.out.println(divider);
         System.out.println(banner);
@@ -36,12 +45,14 @@ public class Chocolate {
             } else if (command.startsWith("mark ")) {
                 int taskIndex = Integer.parseInt(command.substring(5)) - 1;
                 tasks.get(taskIndex).markAsDone();
+                storage.save(tasks);
                 System.out.println("Well Done! I have marked this task as done:");
                 System.out.println("  [X] " + tasks.get(taskIndex).getDescription());
                 System.out.println(divider);
             } else if (command.startsWith("unmark ")) {
                 int taskIndex = Integer.parseInt(command.substring(7)) - 1;
                 tasks.get(taskIndex).markAsUndone();
+                storage.save(tasks);
                 System.out.println("Alright, I have marked this task as not done yet:");
                 System.out.println("  [ ] " + tasks.get(taskIndex).getDescription());
                 System.out.println(divider);
@@ -52,6 +63,7 @@ public class Chocolate {
                             "Please provide a valid description after the command you used!");
                 }
                 tasks.add(new Todo(description));
+                storage.save(tasks);
                 System.out.println("Got it. I've added this task:");
                 System.out.println("  " + tasks.get(tasks.size() - 1));
                 System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -64,6 +76,7 @@ public class Chocolate {
                 String by = details.substring(byIndex + " /by ".length());
 
                 tasks.add(new Deadline(description, by));
+                storage.save(tasks);
                 System.out.println("Got it. I've added this task:");
                 System.out.println("  " + tasks.get(tasks.size() - 1));
                 System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -78,6 +91,7 @@ public class Chocolate {
                 String to = details.substring(toIndex + " /to ".length());
 
                 tasks.add(new Event(description, from, to));
+                storage.save(tasks);
                 System.out.println("Got it. I've added this task:");
                 System.out.println("  " + tasks.get(tasks.size() - 1));
                 System.out.println("Now you have " + tasks.size() + " tasks in the list.");
@@ -102,6 +116,7 @@ public class Chocolate {
                     }
 
                     Task deletedTask = tasks.remove(taskId);
+                    storage.save(tasks);
 
                     System.out.println("Got it. I have removed the task:");
                     System.out.println("  " + deletedTask);
@@ -113,6 +128,9 @@ public class Chocolate {
             }
             } catch (ChocolateException e) {
                 System.out.println("Oops! " + e.getMessage());
+                System.out.println(divider);
+            } catch (IOException e) {
+                System.out.println("Oops! I could not save your tasks to the hard disk.");
                 System.out.println(divider);
             }
         }
