@@ -3,6 +3,39 @@
 Run each independent test from a clean temporary working directory so saved data from one test
 does not affect another test.
 
+## Test: Reject invalid deadline dates
+
+Aim: Verify malformed and impossible dates show an error and do not add tasks.
+
+### Input
+```text
+deadline return book /by 15-10-2019
+deadline submit report /by 2019-02-30
+list
+bye
+```
+
+### Expected output
+```text
+**************************************
+Chocolate
+Hi, my name is Chocolate!
+How may I help you today?
+**************************************
+**************************************
+Oops! Please use the date format yyyy-MM-dd.
+**************************************
+**************************************
+Oops! Please use the date format yyyy-MM-dd.
+**************************************
+**************************************
+Here are the tasks in your list:
+**************************************
+**************************************
+Thank you and see you again
+**************************************
+```
+
 ## Test: Save tasks and restore them in a later session
 
 Aim: Verify task types and completion status are saved automatically and loaded at startup.
@@ -10,7 +43,7 @@ Aim: Verify task types and completion status are saved automatically and loaded 
 ### First-session input
 ```text
 todo read book
-deadline return book /by Sunday
+deadline return book /by 2019-10-15
 mark 2
 bye
 ```
@@ -31,7 +64,7 @@ How may I help you today?
 **************************************
 Here are the tasks in your list:
 1.[T][ ] read book
-2.[D][X] return book (by: Sunday)
+2.[D][X] return book (by: Oct 15 2019)
 **************************************
 **************************************
 Thank you and see you again
@@ -45,7 +78,7 @@ Aim: Verify Todo, Deadline, and Event commands preserve their type and done stat
 ### Input
 ```text
 todo borrow book
-deadline return book /by Sunday
+deadline return book /by 2019-10-15
 event project meeting /from Mon 2pm /to 4pm
 list
 mark 2
@@ -67,7 +100,7 @@ Now you have 1 tasks in the list.
 **************************************
 **************************************
 Got it. I've added this task:
-  [D][ ] return book (by: Sunday)
+  [D][ ] return book (by: Oct 15 2019)
 Now you have 2 tasks in the list.
 **************************************
 **************************************
@@ -78,7 +111,7 @@ Now you have 3 tasks in the list.
 **************************************
 Here are the tasks in your list:
 1.[T][ ] borrow book
-2.[D][ ] return book (by: Sunday)
+2.[D][ ] return book (by: Oct 15 2019)
 3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
 **************************************
 **************************************
@@ -141,7 +174,7 @@ Aim: Verify deletion removes the chosen task and invalid deletion leaves the lis
 ### Input
 ```text
 todo read book
-deadline return book /by Sunday
+deadline return book /by 2019-10-15
 event project meeting /from Mon 2pm /to 4pm
 delete 2
 list
@@ -164,7 +197,7 @@ Now you have 1 tasks in the list.
 **************************************
 **************************************
 Got it. I've added this task:
-  [D][ ] return book (by: Sunday)
+  [D][ ] return book (by: Oct 15 2019)
 Now you have 2 tasks in the list.
 **************************************
 **************************************
@@ -174,7 +207,7 @@ Now you have 3 tasks in the list.
 **************************************
 **************************************
 Got it. I have removed the task:
-  [D][ ] return book (by: Sunday)
+  [D][ ] return book (by: Oct 15 2019)
 You now have 2 tasks left in your list!
 **************************************
 **************************************

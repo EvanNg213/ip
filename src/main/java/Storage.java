@@ -2,6 +2,7 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,7 +74,9 @@ public class Storage {
                 task = fields.length == 3 ? new Todo(fields[2]) : null;
                 break;
             case "D":
-                task = fields.length == 4 ? new Deadline(fields[2], fields[3]) : null;
+                task = fields.length == 4
+                        ? new Deadline(fields[2], LocalDate.parse(fields[3]))
+                        : null;
                 break;
             case "E":
                 task = fields.length == 5 ? new Event(fields[2], fields[3], fields[4]) : null;

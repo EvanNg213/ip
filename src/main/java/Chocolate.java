@@ -1,5 +1,7 @@
 import java.io.IOException;
 import java.nio.file.Path;
+import java.time.LocalDate;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -73,7 +75,8 @@ public class Chocolate {
                 int byIndex = details.indexOf(" /by ");
 
                 String description = details.substring(0, byIndex);
-                String by = details.substring(byIndex + " /by ".length());
+                String dateText = details.substring(byIndex + " /by ".length());
+                LocalDate by = LocalDate.parse(dateText);
 
                 tasks.add(new Deadline(description, by));
                 storage.save(tasks);
@@ -128,6 +131,9 @@ public class Chocolate {
             }
             } catch (ChocolateException e) {
                 System.out.println("Oops! " + e.getMessage());
+                System.out.println(divider);
+            } catch (DateTimeParseException e) {
+                System.out.println("Oops! Please use the date format yyyy-MM-dd.");
                 System.out.println(divider);
             } catch (IOException e) {
                 System.out.println("Oops! I could not save your tasks to the hard disk.");
