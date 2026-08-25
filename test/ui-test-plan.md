@@ -1,5 +1,43 @@
 # Chocolate UI test plan
 
+Run each independent test from a clean temporary working directory so saved data from one test
+does not affect another test.
+
+## Test: Save tasks and restore them in a later session
+
+Aim: Verify task types and completion status are saved automatically and loaded at startup.
+
+### First-session input
+```text
+todo read book
+deadline return book /by Sunday
+mark 2
+bye
+```
+
+### Second-session input
+```text
+list
+bye
+```
+
+### Expected second-session output
+```text
+**************************************
+Chocolate
+Hi, my name is Chocolate!
+How may I help you today?
+**************************************
+**************************************
+Here are the tasks in your list:
+1.[T][ ] read book
+2.[D][X] return book (by: Sunday)
+**************************************
+**************************************
+Thank you and see you again
+**************************************
+```
+
 ## Test: Add, list, mark, and unmark each task type
 
 Aim: Verify Todo, Deadline, and Event commands preserve their type and done status.
