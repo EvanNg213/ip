@@ -3,6 +3,43 @@
 Run each independent test from a clean temporary working directory so saved data from one test
 does not affect another test.
 
+## Test: Reject malformed commands without terminating
+
+Aim: Verify Parser reports missing command details and Chocolate continues accepting commands.
+
+### Input
+```text
+mark
+delete abc
+deadline return book
+event meeting /from Monday
+bye
+```
+
+### Expected output
+```text
+**************************************
+Chocolate
+Hi, my name is Chocolate!
+How may I help you today?
+**************************************
+**************************************
+Oops! Please provide a task number!
+**************************************
+**************************************
+Oops! Please provide a whole number for the task number!
+**************************************
+**************************************
+Oops! Please use: deadline DESCRIPTION /by yyyy-MM-dd.
+**************************************
+**************************************
+Oops! Please use: event DESCRIPTION /from START /to END.
+**************************************
+**************************************
+Thank you and see you again
+**************************************
+```
+
 ## Test: Reject invalid deadline dates
 
 Aim: Verify malformed and impossible dates show an error and do not add tasks.

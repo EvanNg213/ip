@@ -4,7 +4,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.List;
 
 /** Saves tasks to disk and restores them when Chocolate starts. */
 public class Storage {
@@ -34,14 +33,14 @@ public class Storage {
     }
 
     /** Writes the current task list, creating its parent folder when necessary. */
-    public void save(List<Task> tasks) throws IOException {
+    public void save(TaskList tasks) throws IOException {
         Path parent = filePath.getParent();
         if (parent != null) {
             Files.createDirectories(parent);
         }
 
         ArrayList<String> lines = new ArrayList<>();
-        for (Task task : tasks) {
+        for (Task task : tasks.getAll()) {
             lines.add(formatTask(task));
         }
         Files.write(filePath, lines, StandardCharsets.UTF_8);
