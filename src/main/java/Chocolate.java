@@ -2,7 +2,6 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
-import java.util.ArrayList;
 import java.util.Scanner;
 
 /** Start application. */
@@ -12,11 +11,11 @@ public class Chocolate {
         String banner = "Chocolate";
 
         Storage storage = new Storage(Path.of("data", "duke.txt"));
-        ArrayList<Task> tasks;
+        TaskList tasks;
         try {
-            tasks = storage.load();
+            tasks = new TaskList(storage.load());
         } catch (IOException e) {
-            tasks = new ArrayList<>();
+            tasks = new TaskList();
             System.out.println("Warning: Saved tasks could not be loaded. Starting with an empty list.");
         }
 
@@ -46,14 +45,14 @@ public class Chocolate {
                 System.out.println(divider);
             } else if (command.startsWith("mark ")) {
                 int taskIndex = Integer.parseInt(command.substring(5)) - 1;
-                tasks.get(taskIndex).markAsDone();
+                tasks.mark(taskIndex);
                 storage.save(tasks);
                 System.out.println("Well Done! I have marked this task as done:");
                 System.out.println("  [X] " + tasks.get(taskIndex).getDescription());
                 System.out.println(divider);
             } else if (command.startsWith("unmark ")) {
                 int taskIndex = Integer.parseInt(command.substring(7)) - 1;
-                tasks.get(taskIndex).markAsUndone();
+                tasks.unmark(taskIndex);
                 storage.save(tasks);
                 System.out.println("Alright, I have marked this task as not done yet:");
                 System.out.println("  [ ] " + tasks.get(taskIndex).getDescription());
@@ -118,7 +117,7 @@ public class Chocolate {
                         throw new ChocolateException("That task number does not exist in your list!");
                     }
 
-                    Task deletedTask = tasks.remove(taskId);
+                    Task deletedTask = tasks.delete(taskId);
                     storage.save(tasks);
 
                     System.out.println("Got it. I have removed the task:");
