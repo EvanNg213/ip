@@ -34,4 +34,10 @@ Run Chocolate with:
 ./gradlew run
 ```
 
+Run the JUnit test suite with:
+
+```bash
+./gradlew test
+```
+
 On Windows, use `gradlew.bat` instead of `./gradlew`.

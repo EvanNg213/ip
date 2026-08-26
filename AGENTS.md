@@ -36,6 +36,12 @@ After each code update that changes Chocolate's console behavior:
 * Invoke the `$test-ui` skill, which compiles the project and runs the recorded console tests.
 * Resolve any failed test before considering the code update complete. Keep the test transcript in the task handoff or final report.
 
+## JUnit testing
+
+Maintain JUnit coverage for roughly the top 50% highest-value methods, prioritizing complex,
+core, and critical business logic. After each code change, update and run the relevant JUnit
+tests with Gradle so that this coverage target continues to be met.
+
 ## Git
 
 Use lightweight tags unless the user requests an annotated tag.
