@@ -41,3 +41,21 @@ Run the JUnit test suite with:
 ```
 
 On Windows, use `gradlew.bat` instead of `./gradlew`.
+
+## Packaging an executable JAR
+
+Create the executable fat JAR with:
+
+```bash
+./gradlew clean shadowJar
+```
+
+The generated file is located at `build/libs/Chocolate.jar`. Copy only that JAR into an empty
+folder, open a terminal in that folder, and run:
+
+```bash
+java -jar "Chocolate.jar"
+```
+
+The destination computer needs Java 25, but does not need Gradle or separately installed
+application dependencies.
