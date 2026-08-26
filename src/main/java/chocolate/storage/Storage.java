@@ -1,9 +1,17 @@
+package chocolate.storage;
+
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.time.LocalDate;
 import java.util.ArrayList;
+
+import chocolate.task.Deadline;
+import chocolate.task.Event;
+import chocolate.task.Task;
+import chocolate.task.TaskList;
+import chocolate.task.Todo;
 
 /** Saves tasks to disk and restores them when Chocolate starts. */
 public class Storage {

@@ -1,3 +1,5 @@
+package chocolate.task;
+
 /** Class for a Task in list */
 public class Task {
     private String description;

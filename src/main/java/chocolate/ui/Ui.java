@@ -1,4 +1,9 @@
+package chocolate.ui;
+
 import java.util.Scanner;
+
+import chocolate.task.Task;
+import chocolate.task.TaskList;
 
 /** Handles all console input and output for Chocolate. */
 public class Ui {

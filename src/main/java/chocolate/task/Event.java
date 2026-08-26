@@ -1,3 +1,5 @@
+package chocolate.task;
+
 /** Represent a task with a start and end time */
 
 public class Event extends Task {
