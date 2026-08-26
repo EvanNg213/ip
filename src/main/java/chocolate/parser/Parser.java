@@ -8,13 +8,27 @@ import chocolate.task.Deadline;
 import chocolate.task.Event;
 import chocolate.task.Todo;
 
-/** Converts raw user input into commands that the application can execute. */
+/**
+ * Converts raw user input into commands that the application can execute.
+ */
 public class Parser {
     private static final String INVALID_COMMAND_MESSAGE =
             "That is not a valid command. Please try any of these: todo, deadline, event, "
                     + "list, mark, unmark, delete, or bye.";
 
-    /** Parses a complete line of user input. */
+    /**
+     * Prevents instantiation of this utility class.
+     */
+    private Parser() {
+    }
+
+    /**
+     * Parses a complete line of user input.
+     *
+     * @param input User-entered command line.
+     * @return Structured command ready for execution.
+     * @throws ChocolateException If the command or its arguments are invalid.
+     */
     public static ParsedCommand parse(String input) throws ChocolateException {
         if (input.equals("bye")) {
             return ParsedCommand.simple(CommandType.BYE);
@@ -36,6 +50,13 @@ public class Parser {
         throw new ChocolateException(INVALID_COMMAND_MESSAGE);
     }
 
+    /**
+     * Parses a todo command into a task.
+     *
+     * @param input Complete todo command.
+     * @return Todo described by the command.
+     * @throws ChocolateException If the description is empty.
+     */
     private static Todo parseTodo(String input) throws ChocolateException {
         String description = input.substring("todo".length()).trim();
         if (description.isEmpty()) {
@@ -45,6 +66,13 @@ public class Parser {
         return new Todo(description);
     }
 
+    /**
+     * Parses a deadline command into a dated task.
+     *
+     * @param input Complete deadline command.
+     * @return Deadline described by the command.
+     * @throws ChocolateException If the command structure or date is invalid.
+     */
     private static Deadline parseDeadline(String input) throws ChocolateException {
         String details = input.substring("deadline".length()).trim();
         int byIndex = details.indexOf(" /by ");
@@ -61,6 +89,13 @@ public class Parser {
         }
     }
 
+    /**
+     * Parses an event command into a task with start and end details.
+     *
+     * @param input Complete event command.
+     * @return Event described by the command.
+     * @throws ChocolateException If the command structure is invalid.
+     */
     private static Event parseEvent(String input) throws ChocolateException {
         String details = input.substring("event".length()).trim();
         int fromIndex = details.indexOf(" /from ");
@@ -76,6 +111,14 @@ public class Parser {
         return new Event(description, from, to);
     }
 
+    /**
+     * Extracts and converts a one-based task number into a zero-based index.
+     *
+     * @param input Complete indexed command.
+     * @param commandWord Command word preceding the task number.
+     * @return Zero-based task index.
+     * @throws ChocolateException If the task number is missing or not an integer.
+     */
     private static int parseTaskIndex(String input, String commandWord)
             throws ChocolateException {
         String numberText = input.substring(commandWord.length()).trim();
