@@ -11,13 +11,19 @@ import chocolate.task.Task;
 import chocolate.task.TaskList;
 import chocolate.ui.Ui;
 
-/** Coordinates parsing, task management, storage, and user interaction. */
+/**
+ * Coordinates parsing, task management, storage, and user interaction.
+ */
 public class Chocolate {
     private final Storage storage;
     private final Ui ui;
     private final TaskList tasks;
 
-    /** Creates Chocolate and loads tasks from the configured relative data path. */
+    /**
+     * Creates Chocolate and loads tasks from the configured relative data path.
+     *
+     * @param filePath Relative path of the task data file.
+     */
     public Chocolate(String filePath) {
         this.ui = new Ui();
         this.storage = new Storage(Path.of(filePath));
@@ -31,7 +37,9 @@ public class Chocolate {
         this.tasks = loadedTasks;
     }
 
-    /** Runs the command loop until the user enters the bye command. */
+    /**
+     * Runs the command loop until the user enters the bye command.
+     */
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
@@ -50,7 +58,14 @@ public class Chocolate {
         }
     }
 
-    /** Executes one parsed command and returns true only for the exit command. */
+    /**
+     * Executes one parsed command.
+     *
+     * @param command Parsed command to execute.
+     * @return True if the application should exit.
+     * @throws ChocolateException If the command refers to an invalid task.
+     * @throws IOException If an updated task list cannot be saved.
+     */
     private boolean execute(ParsedCommand command) throws ChocolateException, IOException {
         switch (command.getType()) {
         case BYE:
@@ -87,6 +102,11 @@ public class Chocolate {
         return false;
     }
 
+    /**
+     * Starts Chocolate using the default task data file.
+     *
+     * @param args Command-line arguments, which are not used.
+     */
     public static void main(String[] args) {
         new Chocolate("data/duke.txt").run();
     }

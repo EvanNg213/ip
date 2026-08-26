@@ -13,10 +13,17 @@ import chocolate.task.Task;
 import chocolate.task.TaskList;
 import chocolate.task.Todo;
 
-/** Saves tasks to disk and restores them when Chocolate starts. */
+/**
+ * Saves tasks to disk and restores them when Chocolate starts.
+ */
 public class Storage {
     private final Path filePath;
 
+    /**
+     * Creates storage that reads from and writes to the specified file.
+     *
+     * @param filePath Path of the task data file.
+     */
     public Storage(Path filePath) {
         this.filePath = filePath;
     }
@@ -24,6 +31,9 @@ public class Storage {
     /**
      * Loads every valid task from the data file.
      * A missing file represents a new user with an empty task list.
+     *
+     * @return Tasks reconstructed from valid file records.
+     * @throws IOException If the existing data file cannot be read.
      */
     public ArrayList<Task> load() throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
@@ -40,7 +50,12 @@ public class Storage {
         return tasks;
     }
 
-    /** Writes the current task list, creating its parent folder when necessary. */
+    /**
+     * Writes the current task list, creating its parent folder when necessary.
+     *
+     * @param tasks Current task list.
+     * @throws IOException If the folder or data file cannot be written.
+     */
     public void save(TaskList tasks) throws IOException {
         Path parent = filePath.getParent();
         if (parent != null) {
@@ -54,6 +69,12 @@ public class Storage {
         Files.write(filePath, lines, StandardCharsets.UTF_8);
     }
 
+    /**
+     * Converts a task into its persistent text representation.
+     *
+     * @param task Task to convert.
+     * @return File record containing the task type, status, and details.
+     */
     private String formatTask(Task task) {
         String status = task.isDone() ? "1" : "0";
         if (task instanceof Deadline) {
@@ -67,7 +88,12 @@ public class Storage {
         return "T | " + status + " | " + task.getDescription();
     }
 
-    /** Returns null for malformed records so the remaining saved tasks can still load. */
+    /**
+     * Converts one valid file record back into a task.
+     *
+     * @param line File record to parse.
+     * @return Reconstructed task, or null for a malformed record.
+     */
     private Task parseTask(String line) {
         String[] fields = line.split("\\s*\\|\\s*", -1);
         try {
