@@ -4,6 +4,55 @@ Run each independent test from a clean temporary working directory so saved data
 does not affect another test.
 Run the packaged application using the `chocolate.Chocolate` main class.
 
+## Test: Find tasks by description keyword
+
+Aim: Verify find displays matching tasks only and matches keywords without case sensitivity.
+
+### Input
+```text
+todo Read Book
+deadline return book /by 2019-10-15
+event project meeting /from Mon 2pm /to 4pm
+find BOOK
+find missing
+bye
+```
+
+### Expected output
+```text
+**************************************
+Chocolate
+Hi, my name is Chocolate!
+How may I help you today?
+**************************************
+**************************************
+Got it. I've added this task:
+  [T][ ] Read Book
+Now you have 1 tasks in the list.
+**************************************
+**************************************
+Got it. I've added this task:
+  [D][ ] return book (by: Oct 15 2019)
+Now you have 2 tasks in the list.
+**************************************
+**************************************
+Got it. I've added this task:
+  [E][ ] project meeting (from: Mon 2pm to: 4pm)
+Now you have 3 tasks in the list.
+**************************************
+**************************************
+Here are the matching tasks in your list:
+1.[T][ ] Read Book
+2.[D][ ] return book (by: Oct 15 2019)
+**************************************
+**************************************
+Here are the matching tasks in your list:
+**************************************
+**************************************
+Thank you and see you again
+**************************************
+```
+
 ## Test: Reject malformed commands without terminating
 
 Aim: Verify Parser reports missing command details and Chocolate continues accepting commands.

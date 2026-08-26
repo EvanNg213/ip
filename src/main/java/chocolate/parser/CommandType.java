@@ -19,5 +19,7 @@ public enum CommandType {
     /** Adds an event. */
     EVENT,
     /** Deletes a task. */
-    DELETE
+    DELETE,
+    /** Finds tasks whose descriptions contain a keyword. */
+    FIND
 }

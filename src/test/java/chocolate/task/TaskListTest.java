@@ -5,6 +5,8 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.util.List;
+
 import org.junit.jupiter.api.Test;
 
 import chocolate.exception.ChocolateException;
@@ -56,5 +58,28 @@ public class TaskListTest {
         assertThrows(UnsupportedOperationException.class,
                 () -> tasks.getAll().add(new Todo("write report")));
         assertEquals(1, tasks.size());
+    }
+
+    @Test
+    public void find_keywordWithDifferentCase_returnsMatchingDescriptions() {
+        TaskList tasks = new TaskList();
+        Todo firstMatch = new Todo("Read Book");
+        Todo nonMatch = new Todo("write report");
+        Todo secondMatch = new Todo("return book");
+        tasks.add(firstMatch);
+        tasks.add(nonMatch);
+        tasks.add(secondMatch);
+
+        List<Task> matchingTasks = tasks.find("BOOK");
+
+        assertEquals(List.of(firstMatch, secondMatch), matchingTasks);
+    }
+
+    @Test
+    public void find_noMatchingDescription_returnsEmptyList() {
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("read book"));
+
+        assertTrue(tasks.find("meeting").isEmpty());
     }
 }

@@ -14,7 +14,7 @@ import chocolate.task.Todo;
 public class Parser {
     private static final String INVALID_COMMAND_MESSAGE =
             "That is not a valid command. Please try any of these: todo, deadline, event, "
-                    + "list, mark, unmark, delete, or bye.";
+                    + "list, mark, unmark, delete, find, or bye.";
 
     /**
      * Prevents instantiation of this utility class.
@@ -48,6 +48,8 @@ public class Parser {
         } else if (input.equals("delete") || input.startsWith("delete ")) {
             return ParsedCommand.createWithIndex(
                     CommandType.DELETE, parseTaskIndex(input, "delete"));
+        } else if (input.equals("find") || input.startsWith("find ")) {
+            return ParsedCommand.createWithKeyword(CommandType.FIND, parseKeyword(input));
         }
         throw new ChocolateException(INVALID_COMMAND_MESSAGE);
     }
@@ -132,5 +134,20 @@ public class Parser {
         } catch (NumberFormatException e) {
             throw new ChocolateException("Please provide a whole number for the task number!");
         }
+    }
+
+    /**
+     * Extracts a non-empty keyword from a find command.
+     *
+     * @param input Complete find command.
+     * @return Keyword to search for.
+     * @throws ChocolateException If the keyword is empty.
+     */
+    private static String parseKeyword(String input) throws ChocolateException {
+        String keyword = input.substring("find".length()).trim();
+        if (keyword.isEmpty()) {
+            throw new ChocolateException("Please provide a keyword to find!");
+        }
+        return keyword;
     }
 }

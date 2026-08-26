@@ -3,6 +3,7 @@ package chocolate.task;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import chocolate.exception.ChocolateException;
 
@@ -97,6 +98,23 @@ public class TaskList {
      */
     public List<Task> getAll() {
         return Collections.unmodifiableList(tasks);
+    }
+
+    /**
+     * Returns tasks whose descriptions contain the keyword, ignoring case.
+     *
+     * @param keyword Keyword to find in task descriptions.
+     * @return Matching tasks in their original list order.
+     */
+    public List<Task> find(String keyword) {
+        String normalizedKeyword = keyword.toLowerCase(Locale.ROOT);
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().toLowerCase(Locale.ROOT).contains(normalizedKeyword)) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
     }
 
     /**

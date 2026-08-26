@@ -54,11 +54,20 @@ public class ParserTest {
     }
 
     @Test
+    public void parseFind_validKeyword_structuredKeyword() throws ChocolateException {
+        ParsedCommand command = Parser.parse("find project meeting");
+
+        assertEquals(CommandType.FIND, command.getType());
+        assertEquals("project meeting", command.getKeyword());
+    }
+
+    @Test
     public void parse_invalidCommands_exceptionThrown() {
         assertThrows(ChocolateException.class, () -> Parser.parse("unknown"));
         assertThrows(ChocolateException.class, () -> Parser.parse("todo"));
         assertThrows(ChocolateException.class, () -> Parser.parse("mark"));
         assertThrows(ChocolateException.class, () -> Parser.parse("delete abc"));
+        assertThrows(ChocolateException.class, () -> Parser.parse("find"));
         assertThrows(ChocolateException.class,
                 () -> Parser.parse("deadline return book /by 2019-02-30"));
         assertThrows(ChocolateException.class,
