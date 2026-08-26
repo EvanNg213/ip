@@ -4,7 +4,7 @@ package chocolate.task;
  * Represents a task with a description and completion status.
  */
 public class Task {
-    private String description;
+    private final String description;
     private boolean isDone;
 
     /**
@@ -23,12 +23,14 @@ public class Task {
     public void markAsDone() {
         isDone = true;
     }
+
     /**
      * Marks this task as incomplete.
      */
     public void markAsUndone() {
         isDone = false;
     }
+
     /**
      * Returns the symbol used to display the completion status.
      *

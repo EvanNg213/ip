@@ -22,7 +22,7 @@ public class ParsedCommand {
      * @param type Type of command.
      * @return Parsed command containing only its type.
      */
-    public static ParsedCommand simple(CommandType type) {
+    public static ParsedCommand createSimple(CommandType type) {
         return new ParsedCommand(type, null, -1);
     }
 
@@ -33,7 +33,7 @@ public class ParsedCommand {
      * @param task Task to add.
      * @return Parsed command containing the task.
      */
-    public static ParsedCommand withTask(CommandType type, Task task) {
+    public static ParsedCommand createWithTask(CommandType type, Task task) {
         return new ParsedCommand(type, task, -1);
     }
 
@@ -44,7 +44,7 @@ public class ParsedCommand {
      * @param taskIndex Zero-based index of the target task.
      * @return Parsed command containing the task index.
      */
-    public static ParsedCommand withIndex(CommandType type, int taskIndex) {
+    public static ParsedCommand createWithIndex(CommandType type, int taskIndex) {
         return new ParsedCommand(type, null, taskIndex);
     }
 

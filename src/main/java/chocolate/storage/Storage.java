@@ -103,19 +103,22 @@ public class Storage {
 
             Task task;
             switch (fields[0]) {
-            case "T":
-                task = fields.length == 3 ? new Todo(fields[2]) : null;
-                break;
-            case "D":
-                task = fields.length == 4
-                        ? new Deadline(fields[2], LocalDate.parse(fields[3]))
-                        : null;
-                break;
-            case "E":
-                task = fields.length == 5 ? new Event(fields[2], fields[3], fields[4]) : null;
-                break;
-            default:
-                task = null;
+                case "T":
+                    task = fields.length == 3 ? new Todo(fields[2]) : null;
+                    break;
+                case "D":
+                    task = fields.length == 4
+                            ? new Deadline(fields[2], LocalDate.parse(fields[3]))
+                            : null;
+                    break;
+                case "E":
+                    task = fields.length == 5
+                            ? new Event(fields[2], fields[3], fields[4])
+                            : null;
+                    break;
+                default:
+                    task = null;
+                    break;
             }
 
             if (task != null && fields[1].equals("1")) {

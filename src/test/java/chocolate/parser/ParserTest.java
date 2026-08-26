@@ -13,7 +13,9 @@ import chocolate.task.Deadline;
 import chocolate.task.Event;
 import chocolate.task.Todo;
 
-/** Tests command recognition and validation in {@link Parser}. */
+/**
+ * Tests command recognition and validation in {@link Parser}.
+ */
 public class ParserTest {
     @Test
     public void parse_simpleCommands_correctTypes() throws ChocolateException {

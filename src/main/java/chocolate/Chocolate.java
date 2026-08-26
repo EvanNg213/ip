@@ -68,36 +68,38 @@ public class Chocolate {
      */
     private boolean execute(ParsedCommand command) throws ChocolateException, IOException {
         switch (command.getType()) {
-        case BYE:
-            ui.showGoodbye();
-            return true;
-        case LIST:
-            ui.showTaskList(tasks);
-            break;
-        case MARK:
-            tasks.mark(command.getTaskIndex());
-            storage.save(tasks);
-            ui.showMarked(tasks.get(command.getTaskIndex()));
-            break;
-        case UNMARK:
-            tasks.unmark(command.getTaskIndex());
-            storage.save(tasks);
-            ui.showUnmarked(tasks.get(command.getTaskIndex()));
-            break;
-        case TODO:
-        case DEADLINE:
-        case EVENT:
-            tasks.add(command.getTask());
-            storage.save(tasks);
-            ui.showAdded(command.getTask(), tasks.size());
-            break;
-        case DELETE:
-            Task deletedTask = tasks.delete(command.getTaskIndex());
-            storage.save(tasks);
-            ui.showDeleted(deletedTask, tasks.size());
-            break;
-        default:
-            throw new ChocolateException("Unable to execute the command.");
+            case BYE:
+                ui.showGoodbye();
+                return true;
+            case LIST:
+                ui.showTaskList(tasks);
+                break;
+            case MARK:
+                tasks.mark(command.getTaskIndex());
+                storage.save(tasks);
+                ui.showMarked(tasks.get(command.getTaskIndex()));
+                break;
+            case UNMARK:
+                tasks.unmark(command.getTaskIndex());
+                storage.save(tasks);
+                ui.showUnmarked(tasks.get(command.getTaskIndex()));
+                break;
+            case TODO:
+                // Fallthrough
+            case DEADLINE:
+                // Fallthrough
+            case EVENT:
+                tasks.add(command.getTask());
+                storage.save(tasks);
+                ui.showAdded(command.getTask(), tasks.size());
+                break;
+            case DELETE:
+                Task deletedTask = tasks.delete(command.getTaskIndex());
+                storage.save(tasks);
+                ui.showDeleted(deletedTask, tasks.size());
+                break;
+            default:
+                throw new ChocolateException("Unable to execute the command.");
         }
         return false;
     }

@@ -5,9 +5,9 @@ package chocolate.task;
  */
 public class Event extends Task {
     /** Start details of this event. */
-    public String start;
+    private final String start;
     /** End details of this event. */
-    public String end;
+    private final String end;
 
     /**
      * Creates an event with the specified description and schedule.

@@ -9,7 +9,9 @@ import org.junit.jupiter.api.Test;
 
 import chocolate.exception.ChocolateException;
 
-/** Tests mutations and bounds checking in {@link TaskList}. */
+/**
+ * Tests mutations and bounds checking in {@link TaskList}.
+ */
 public class TaskListTest {
     @Test
     public void taskOperations_validIndexes_updateListAndStatus() throws ChocolateException {
