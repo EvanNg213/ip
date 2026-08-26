@@ -12,7 +12,7 @@ import chocolate.task.Todo;
 public class Parser {
     private static final String INVALID_COMMAND_MESSAGE =
             "That is not a valid command. Please try any of these: todo, deadline, event, "
-                    + "list, mark, unmark, delete, or bye.";
+                    + "list, mark, unmark, delete, find, or bye.";
 
     /** Parses a complete line of user input. */
     public static ParsedCommand parse(String input) throws ChocolateException {
@@ -32,6 +32,8 @@ public class Parser {
             return ParsedCommand.withTask(CommandType.EVENT, parseEvent(input));
         } else if (input.equals("delete") || input.startsWith("delete ")) {
             return ParsedCommand.withIndex(CommandType.DELETE, parseTaskIndex(input, "delete"));
+        } else if (input.equals("find") || input.startsWith("find ")) {
+            return ParsedCommand.withKeyword(CommandType.FIND, parseKeyword(input));
         }
         throw new ChocolateException(INVALID_COMMAND_MESSAGE);
     }
@@ -87,5 +89,13 @@ public class Parser {
         } catch (NumberFormatException e) {
             throw new ChocolateException("Please provide a whole number for the task number!");
         }
+    }
+
+    private static String parseKeyword(String input) throws ChocolateException {
+        String keyword = input.substring("find".length()).trim();
+        if (keyword.isEmpty()) {
+            throw new ChocolateException("Please provide a keyword to find!");
+        }
+        return keyword;
     }
 }

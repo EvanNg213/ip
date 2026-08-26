@@ -3,6 +3,7 @@ package chocolate.task;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
 import chocolate.exception.ChocolateException;
 
@@ -48,6 +49,17 @@ public class TaskList {
     /** Returns a read-only view for services that need to inspect all tasks. */
     public List<Task> getAll() {
         return Collections.unmodifiableList(tasks);
+    }
+
+    public List<Task> find(String keyword) {
+        String normalizedKeyword = keyword.toLowerCase(Locale.ROOT);
+        ArrayList<Task> matchingTasks = new ArrayList<>();
+        for (Task task : tasks) {
+            if (task.getDescription().toLowerCase(Locale.ROOT).contains(normalizedKeyword)) {
+                matchingTasks.add(task);
+            }
+        }
+        return matchingTasks;
     }
 
     private void ensureValidIndex(int index) throws ChocolateException {

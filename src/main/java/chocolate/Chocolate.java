@@ -81,6 +81,9 @@ public class Chocolate {
             storage.save(tasks);
             ui.showDeleted(deletedTask, tasks.size());
             break;
+        case FIND:
+            ui.showMatchingTasks(tasks.find(command.getKeyword()));
+            break;
         default:
             throw new ChocolateException("Unable to execute the command.");
         }

@@ -1,5 +1,6 @@
 package chocolate.ui;
 
+import java.util.List;
 import java.util.Scanner;
 
 import chocolate.task.Task;
@@ -37,6 +38,14 @@ public class Ui {
 
     public void showTaskList(TaskList tasks) {
         System.out.println("Here are the tasks in your list:");
+        for (int i = 0; i < tasks.size(); i++) {
+            System.out.println((i + 1) + "." + tasks.get(i));
+        }
+        showLine();
+    }
+
+    public void showMatchingTasks(List<Task> tasks) {
+        System.out.println("Here are the matching tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
             System.out.println((i + 1) + "." + tasks.get(i));
         }
