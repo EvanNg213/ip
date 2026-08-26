@@ -8,30 +8,39 @@ import chocolate.task.Deadline;
 import chocolate.task.Event;
 import chocolate.task.Todo;
 
-/** Converts raw user input into commands that the application can execute. */
+/**
+ * Converts raw user input into commands that the application can execute.
+ */
 public class Parser {
     private static final String INVALID_COMMAND_MESSAGE =
             "That is not a valid command. Please try any of these: todo, deadline, event, "
                     + "list, mark, unmark, delete, or bye.";
 
-    /** Parses a complete line of user input. */
+    private Parser() {
+    }
+
+    /**
+     * Parses a complete line of user input.
+     */
     public static ParsedCommand parse(String input) throws ChocolateException {
         if (input.equals("bye")) {
-            return ParsedCommand.simple(CommandType.BYE);
+            return ParsedCommand.createSimple(CommandType.BYE);
         } else if (input.equals("list")) {
-            return ParsedCommand.simple(CommandType.LIST);
+            return ParsedCommand.createSimple(CommandType.LIST);
         } else if (input.equals("mark") || input.startsWith("mark ")) {
-            return ParsedCommand.withIndex(CommandType.MARK, parseTaskIndex(input, "mark"));
+            return ParsedCommand.createWithIndex(CommandType.MARK, parseTaskIndex(input, "mark"));
         } else if (input.equals("unmark") || input.startsWith("unmark ")) {
-            return ParsedCommand.withIndex(CommandType.UNMARK, parseTaskIndex(input, "unmark"));
+            return ParsedCommand.createWithIndex(
+                    CommandType.UNMARK, parseTaskIndex(input, "unmark"));
         } else if (input.equals("todo") || input.startsWith("todo ")) {
-            return ParsedCommand.withTask(CommandType.TODO, parseTodo(input));
+            return ParsedCommand.createWithTask(CommandType.TODO, parseTodo(input));
         } else if (input.equals("deadline") || input.startsWith("deadline ")) {
-            return ParsedCommand.withTask(CommandType.DEADLINE, parseDeadline(input));
+            return ParsedCommand.createWithTask(CommandType.DEADLINE, parseDeadline(input));
         } else if (input.equals("event") || input.startsWith("event ")) {
-            return ParsedCommand.withTask(CommandType.EVENT, parseEvent(input));
+            return ParsedCommand.createWithTask(CommandType.EVENT, parseEvent(input));
         } else if (input.equals("delete") || input.startsWith("delete ")) {
-            return ParsedCommand.withIndex(CommandType.DELETE, parseTaskIndex(input, "delete"));
+            return ParsedCommand.createWithIndex(
+                    CommandType.DELETE, parseTaskIndex(input, "delete"));
         }
         throw new ChocolateException(INVALID_COMMAND_MESSAGE);
     }

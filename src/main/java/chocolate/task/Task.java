@@ -1,8 +1,10 @@
 package chocolate.task;
 
-/** Class for a Task in list */
+/**
+ * Represents a task with a description and completion status.
+ */
 public class Task {
-    private String description;
+    private final String description;
     private boolean isDone;
 
     public Task(String description) {
@@ -13,9 +15,11 @@ public class Task {
     public void markAsDone() {
         isDone = true;
     }
+
     public void markAsUndone() {
         isDone = false;
     }
+
     public String getStatusIcon() {
         return isDone ? "X" : " ";
     }

@@ -5,7 +5,9 @@ import java.util.Scanner;
 import chocolate.task.Task;
 import chocolate.task.TaskList;
 
-/** Handles all console input and output for Chocolate. */
+/**
+ * Handles all console input and output for Chocolate.
+ */
 public class Ui {
     private static final String DIVIDER = "**************************************";
     private final Scanner scanner;

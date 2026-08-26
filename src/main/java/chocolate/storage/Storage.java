@@ -13,7 +13,9 @@ import chocolate.task.Task;
 import chocolate.task.TaskList;
 import chocolate.task.Todo;
 
-/** Saves tasks to disk and restores them when Chocolate starts. */
+/**
+ * Saves tasks to disk and restores them when Chocolate starts.
+ */
 public class Storage {
     private final Path filePath;
 
@@ -40,7 +42,9 @@ public class Storage {
         return tasks;
     }
 
-    /** Writes the current task list, creating its parent folder when necessary. */
+    /**
+     * Writes the current task list, creating its parent folder when necessary.
+     */
     public void save(TaskList tasks) throws IOException {
         Path parent = filePath.getParent();
         if (parent != null) {
@@ -67,7 +71,9 @@ public class Storage {
         return "T | " + status + " | " + task.getDescription();
     }
 
-    /** Returns null for malformed records so the remaining saved tasks can still load. */
+    /**
+     * Returns null for malformed records so the remaining saved tasks can still load.
+     */
     private Task parseTask(String line) {
         String[] fields = line.split("\\s*\\|\\s*", -1);
         try {
@@ -77,19 +83,22 @@ public class Storage {
 
             Task task;
             switch (fields[0]) {
-            case "T":
-                task = fields.length == 3 ? new Todo(fields[2]) : null;
-                break;
-            case "D":
-                task = fields.length == 4
-                        ? new Deadline(fields[2], LocalDate.parse(fields[3]))
-                        : null;
-                break;
-            case "E":
-                task = fields.length == 5 ? new Event(fields[2], fields[3], fields[4]) : null;
-                break;
-            default:
-                task = null;
+                case "T":
+                    task = fields.length == 3 ? new Todo(fields[2]) : null;
+                    break;
+                case "D":
+                    task = fields.length == 4
+                            ? new Deadline(fields[2], LocalDate.parse(fields[3]))
+                            : null;
+                    break;
+                case "E":
+                    task = fields.length == 5
+                            ? new Event(fields[2], fields[3], fields[4])
+                            : null;
+                    break;
+                default:
+                    task = null;
+                    break;
             }
 
             if (task != null && fields[1].equals("1")) {

@@ -11,13 +11,17 @@ import chocolate.task.Task;
 import chocolate.task.TaskList;
 import chocolate.ui.Ui;
 
-/** Coordinates parsing, task management, storage, and user interaction. */
+/**
+ * Coordinates parsing, task management, storage, and user interaction.
+ */
 public class Chocolate {
     private final Storage storage;
     private final Ui ui;
     private final TaskList tasks;
 
-    /** Creates Chocolate and loads tasks from the configured relative data path. */
+    /**
+     * Creates Chocolate and loads tasks from the configured relative data path.
+     */
     public Chocolate(String filePath) {
         this.ui = new Ui();
         this.storage = new Storage(Path.of(filePath));
@@ -31,7 +35,9 @@ public class Chocolate {
         this.tasks = loadedTasks;
     }
 
-    /** Runs the command loop until the user enters the bye command. */
+    /**
+     * Runs the command loop until the user enters the bye command.
+     */
     public void run() {
         ui.showWelcome();
         boolean isExit = false;
@@ -50,39 +56,43 @@ public class Chocolate {
         }
     }
 
-    /** Executes one parsed command and returns true only for the exit command. */
+    /**
+     * Executes one parsed command and returns true only for the exit command.
+     */
     private boolean execute(ParsedCommand command) throws ChocolateException, IOException {
         switch (command.getType()) {
-        case BYE:
-            ui.showGoodbye();
-            return true;
-        case LIST:
-            ui.showTaskList(tasks);
-            break;
-        case MARK:
-            tasks.mark(command.getTaskIndex());
-            storage.save(tasks);
-            ui.showMarked(tasks.get(command.getTaskIndex()));
-            break;
-        case UNMARK:
-            tasks.unmark(command.getTaskIndex());
-            storage.save(tasks);
-            ui.showUnmarked(tasks.get(command.getTaskIndex()));
-            break;
-        case TODO:
-        case DEADLINE:
-        case EVENT:
-            tasks.add(command.getTask());
-            storage.save(tasks);
-            ui.showAdded(command.getTask(), tasks.size());
-            break;
-        case DELETE:
-            Task deletedTask = tasks.delete(command.getTaskIndex());
-            storage.save(tasks);
-            ui.showDeleted(deletedTask, tasks.size());
-            break;
-        default:
-            throw new ChocolateException("Unable to execute the command.");
+            case BYE:
+                ui.showGoodbye();
+                return true;
+            case LIST:
+                ui.showTaskList(tasks);
+                break;
+            case MARK:
+                tasks.mark(command.getTaskIndex());
+                storage.save(tasks);
+                ui.showMarked(tasks.get(command.getTaskIndex()));
+                break;
+            case UNMARK:
+                tasks.unmark(command.getTaskIndex());
+                storage.save(tasks);
+                ui.showUnmarked(tasks.get(command.getTaskIndex()));
+                break;
+            case TODO:
+                // Fallthrough
+            case DEADLINE:
+                // Fallthrough
+            case EVENT:
+                tasks.add(command.getTask());
+                storage.save(tasks);
+                ui.showAdded(command.getTask(), tasks.size());
+                break;
+            case DELETE:
+                Task deletedTask = tasks.delete(command.getTaskIndex());
+                storage.save(tasks);
+                ui.showDeleted(deletedTask, tasks.size());
+                break;
+            default:
+                throw new ChocolateException("Unable to execute the command.");
         }
         return false;
     }

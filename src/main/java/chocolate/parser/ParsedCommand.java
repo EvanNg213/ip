@@ -2,7 +2,9 @@ package chocolate.parser;
 
 import chocolate.task.Task;
 
-/** Holds the structured information extracted from one user command. */
+/**
+ * Holds the structured information extracted from one user command.
+ */
 public class ParsedCommand {
     private final CommandType type;
     private final Task task;
@@ -14,15 +16,15 @@ public class ParsedCommand {
         this.taskIndex = taskIndex;
     }
 
-    public static ParsedCommand simple(CommandType type) {
+    public static ParsedCommand createSimple(CommandType type) {
         return new ParsedCommand(type, null, -1);
     }
 
-    public static ParsedCommand withTask(CommandType type, Task task) {
+    public static ParsedCommand createWithTask(CommandType type, Task task) {
         return new ParsedCommand(type, task, -1);
     }
 
-    public static ParsedCommand withIndex(CommandType type, int taskIndex) {
+    public static ParsedCommand createWithIndex(CommandType type, int taskIndex) {
         return new ParsedCommand(type, null, taskIndex);
     }
 

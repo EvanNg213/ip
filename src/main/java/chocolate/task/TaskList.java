@@ -6,7 +6,9 @@ import java.util.List;
 
 import chocolate.exception.ChocolateException;
 
-/** Owns the task collection and provides operations that modify it. */
+/**
+ * Owns the task collection and provides operations that modify it.
+ */
 public class TaskList {
     private final List<Task> tasks;
 
@@ -45,7 +47,9 @@ public class TaskList {
         return tasks.size();
     }
 
-    /** Returns a read-only view for services that need to inspect all tasks. */
+    /**
+     * Returns a read-only view for services that need to inspect all tasks.
+     */
     public List<Task> getAll() {
         return Collections.unmodifiableList(tasks);
     }

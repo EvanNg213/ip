@@ -21,7 +21,9 @@ import chocolate.task.Task;
 import chocolate.task.TaskList;
 import chocolate.task.Todo;
 
-/** Tests saving and loading task data through {@link Storage}. */
+/**
+ * Tests saving and loading task data through {@link Storage}.
+ */
 public class StorageTest {
     @TempDir
     private Path tempDirectory;

@@ -1,10 +1,11 @@
 package chocolate.task;
 
-/** Represent a task with a start and end time */
-
+/**
+ * Represents a task with start and end details.
+ */
 public class Event extends Task {
-    public String start;
-    public String end;
+    private final String start;
+    private final String end;
 
     public Event(String description, String start, String end) {
         super(description);
