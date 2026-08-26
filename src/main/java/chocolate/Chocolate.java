@@ -1,5 +1,15 @@
+package chocolate;
+
 import java.io.IOException;
 import java.nio.file.Path;
+
+import chocolate.exception.ChocolateException;
+import chocolate.parser.ParsedCommand;
+import chocolate.parser.Parser;
+import chocolate.storage.Storage;
+import chocolate.task.Task;
+import chocolate.task.TaskList;
+import chocolate.ui.Ui;
 
 /** Coordinates parsing, task management, storage, and user interaction. */
 public class Chocolate {

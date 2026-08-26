@@ -1,3 +1,7 @@
+package chocolate.parser;
+
+import chocolate.task.Task;
+
 /** Holds the structured information extracted from one user command. */
 public class ParsedCommand {
     private final CommandType type;

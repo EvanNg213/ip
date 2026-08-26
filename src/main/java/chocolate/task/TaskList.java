@@ -1,6 +1,10 @@
+package chocolate.task;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import chocolate.exception.ChocolateException;
 
 /** Owns the task collection and provides operations that modify it. */
 public class TaskList {

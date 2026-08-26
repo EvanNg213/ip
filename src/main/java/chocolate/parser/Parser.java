@@ -1,5 +1,12 @@
+package chocolate.parser;
+
 import java.time.LocalDate;
 import java.time.format.DateTimeParseException;
+
+import chocolate.exception.ChocolateException;
+import chocolate.task.Deadline;
+import chocolate.task.Event;
+import chocolate.task.Todo;
 
 /** Converts raw user input into commands that the application can execute. */
 public class Parser {

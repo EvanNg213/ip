@@ -2,6 +2,7 @@
 
 Run each independent test from a clean temporary working directory so saved data from one test
 does not affect another test.
+Run the packaged application using the `chocolate.Chocolate` main class.
 
 ## Test: Reject malformed commands without terminating
 
