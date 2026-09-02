@@ -24,11 +24,18 @@ public class Ui {
      * Shows the application greeting.
      */
     public void showWelcome() {
+        showLine();
+        System.out.println(getWelcomeMessage());
         System.out.println(DIVIDER);
-        System.out.println("Chocolate");
-        System.out.println("Hi, my name is Chocolate!");
-        System.out.println("How may I help you today?");
-        System.out.println(DIVIDER);
+    }
+
+    /**
+     * Returns the greeting shown when Chocolate starts.
+     *
+     * @return Greeting message without console dividers.
+     */
+    public String getWelcomeMessage() {
+        return "Chocolate\nHi, my name is Chocolate!\nHow may I help you today?";
     }
 
     /**
@@ -51,8 +58,16 @@ public class Ui {
      * Shows the farewell message.
      */
     public void showGoodbye() {
-        System.out.println("Thank you and see you again");
-        showLine();
+        showResponse(getGoodbyeMessage());
+    }
+
+    /**
+     * Returns Chocolate's farewell message.
+     *
+     * @return Farewell message without a console divider.
+     */
+    public String getGoodbyeMessage() {
+        return "Thank you and see you again";
     }
 
     /**
@@ -61,11 +76,21 @@ public class Ui {
      * @param tasks Tasks to display.
      */
     public void showTaskList(TaskList tasks) {
-        System.out.println("Here are the tasks in your list:");
+        showResponse(getTaskListMessage(tasks));
+    }
+
+    /**
+     * Returns the display text for every task.
+     *
+     * @param tasks Tasks to display.
+     * @return Formatted task-list message without a console divider.
+     */
+    public String getTaskListMessage(TaskList tasks) {
+        StringBuilder message = new StringBuilder("Here are the tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + "." + tasks.get(i));
+            message.append("\n").append(i + 1).append(".").append(tasks.get(i));
         }
-        showLine();
+        return message.toString();
     }
 
     /**
@@ -74,11 +99,21 @@ public class Ui {
      * @param tasks Matching tasks to display.
      */
     public void showMatchingTasks(List<Task> tasks) {
-        System.out.println("Here are the matching tasks in your list:");
+        showResponse(getMatchingTasksMessage(tasks));
+    }
+
+    /**
+     * Returns the display text for matching tasks.
+     *
+     * @param tasks Matching tasks to display.
+     * @return Formatted matching-task message without a console divider.
+     */
+    public String getMatchingTasksMessage(List<Task> tasks) {
+        StringBuilder message = new StringBuilder("Here are the matching tasks in your list:");
         for (int i = 0; i < tasks.size(); i++) {
-            System.out.println((i + 1) + "." + tasks.get(i));
+            message.append("\n").append(i + 1).append(".").append(tasks.get(i));
         }
-        showLine();
+        return message.toString();
     }
 
     /**
@@ -87,9 +122,17 @@ public class Ui {
      * @param task Updated task.
      */
     public void showMarked(Task task) {
-        System.out.println("Well Done! I have marked this task as done:");
-        System.out.println("  [X] " + task.getDescription());
-        showLine();
+        showResponse(getMarkedMessage(task));
+    }
+
+    /**
+     * Returns confirmation that a task was completed.
+     *
+     * @param task Updated task.
+     * @return Completion confirmation without a console divider.
+     */
+    public String getMarkedMessage(Task task) {
+        return "Well Done! I have marked this task as done:\n  [X] " + task.getDescription();
     }
 
     /**
@@ -98,9 +141,17 @@ public class Ui {
      * @param task Updated task.
      */
     public void showUnmarked(Task task) {
-        System.out.println("Alright, I have marked this task as not done yet:");
-        System.out.println("  [ ] " + task.getDescription());
-        showLine();
+        showResponse(getUnmarkedMessage(task));
+    }
+
+    /**
+     * Returns confirmation that a task was made incomplete.
+     *
+     * @param task Updated task.
+     * @return Incomplete confirmation without a console divider.
+     */
+    public String getUnmarkedMessage(Task task) {
+        return "Alright, I have marked this task as not done yet:\n  [ ] " + task.getDescription();
     }
 
     /**
@@ -110,10 +161,19 @@ public class Ui {
      * @param taskCount Number of tasks after the addition.
      */
     public void showAdded(Task task, int taskCount) {
-        System.out.println("Got it. I've added this task:");
-        System.out.println("  " + task);
-        System.out.println("Now you have " + taskCount + " tasks in the list.");
-        showLine();
+        showResponse(getAddedMessage(task, taskCount));
+    }
+
+    /**
+     * Returns confirmation that a task was added.
+     *
+     * @param task Added task.
+     * @param taskCount Number of tasks after the addition.
+     * @return Addition confirmation without a console divider.
+     */
+    public String getAddedMessage(Task task, int taskCount) {
+        return "Got it. I've added this task:\n  " + task
+                + "\nNow you have " + taskCount + " tasks in the list.";
     }
 
     /**
@@ -123,10 +183,19 @@ public class Ui {
      * @param taskCount Number of tasks after the deletion.
      */
     public void showDeleted(Task task, int taskCount) {
-        System.out.println("Got it. I have removed the task:");
-        System.out.println("  " + task);
-        System.out.println("You now have " + taskCount + " tasks left in your list!");
-        showLine();
+        showResponse(getDeletedMessage(task, taskCount));
+    }
+
+    /**
+     * Returns confirmation that a task was deleted.
+     *
+     * @param task Deleted task.
+     * @param taskCount Number of tasks after the deletion.
+     * @return Deletion confirmation without a console divider.
+     */
+    public String getDeletedMessage(Task task, int taskCount) {
+        return "Got it. I have removed the task:\n  " + task
+                + "\nYou now have " + taskCount + " tasks left in your list!";
     }
 
     /**
@@ -135,7 +204,26 @@ public class Ui {
      * @param message Explanation of the error.
      */
     public void showError(String message) {
-        System.out.println("Oops! " + message);
+        showResponse(getErrorMessage(message));
+    }
+
+    /**
+     * Returns a user-facing error message.
+     *
+     * @param message Explanation of the error.
+     * @return Formatted error message without a console divider.
+     */
+    public String getErrorMessage(String message) {
+        return "Oops! " + message;
+    }
+
+    /**
+     * Shows a response followed by a divider in the console UI.
+     *
+     * @param response Response to display.
+     */
+    public void showResponse(String response) {
+        System.out.println(response);
         showLine();
     }
 

@@ -47,14 +47,24 @@ public class Chocolate {
         while (!isExit) {
             String input = ui.readCommand();
             ui.showLine();
-            try {
-                ParsedCommand command = Parser.parse(input);
-                isExit = execute(command);
-            } catch (ChocolateException e) {
-                ui.showError(e.getMessage());
-            } catch (IOException e) {
-                ui.showError("I could not save your tasks to the hard disk.");
-            }
+            ui.showResponse(getResponse(input));
+            isExit = input.equals("bye");
+        }
+    }
+
+    /**
+     * Processes one user command and returns Chocolate's reply.
+     *
+     * @param input Complete command entered by the user.
+     * @return A response suitable for either the console or GUI.
+     */
+    public String getResponse(String input) {
+        try {
+            return execute(Parser.parse(input));
+        } catch (ChocolateException e) {
+            return ui.getErrorMessage(e.getMessage());
+        } catch (IOException e) {
+            return ui.getErrorMessage("I could not save your tasks to the hard disk.");
         }
     }
 
@@ -62,28 +72,24 @@ public class Chocolate {
      * Executes one parsed command.
      *
      * @param command Parsed command to execute.
-     * @return True if the application should exit.
+     * @return Response to show the user.
      * @throws ChocolateException If the command refers to an invalid task.
      * @throws IOException If an updated task list cannot be saved.
      */
-    private boolean execute(ParsedCommand command) throws ChocolateException, IOException {
+    private String execute(ParsedCommand command) throws ChocolateException, IOException {
         switch (command.getType()) {
             case BYE:
-                ui.showGoodbye();
-                return true;
+                return ui.getGoodbyeMessage();
             case LIST:
-                ui.showTaskList(tasks);
-                break;
+                return ui.getTaskListMessage(tasks);
             case MARK:
                 tasks.mark(command.getTaskIndex());
                 storage.save(tasks);
-                ui.showMarked(tasks.get(command.getTaskIndex()));
-                break;
+                return ui.getMarkedMessage(tasks.get(command.getTaskIndex()));
             case UNMARK:
                 tasks.unmark(command.getTaskIndex());
                 storage.save(tasks);
-                ui.showUnmarked(tasks.get(command.getTaskIndex()));
-                break;
+                return ui.getUnmarkedMessage(tasks.get(command.getTaskIndex()));
             case TODO:
                 // Fallthrough
             case DEADLINE:
@@ -91,20 +97,16 @@ public class Chocolate {
             case EVENT:
                 tasks.add(command.getTask());
                 storage.save(tasks);
-                ui.showAdded(command.getTask(), tasks.size());
-                break;
+                return ui.getAddedMessage(command.getTask(), tasks.size());
             case DELETE:
                 Task deletedTask = tasks.delete(command.getTaskIndex());
                 storage.save(tasks);
-                ui.showDeleted(deletedTask, tasks.size());
-                break;
+                return ui.getDeletedMessage(deletedTask, tasks.size());
             case FIND:
-                ui.showMatchingTasks(tasks.find(command.getKeyword()));
-                break;
+                return ui.getMatchingTasksMessage(tasks.find(command.getKeyword()));
             default:
                 throw new ChocolateException("Unable to execute the command.");
         }
-        return false;
     }
 
     /**

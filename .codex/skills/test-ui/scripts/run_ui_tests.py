@@ -59,8 +59,13 @@ def load_cases(plan_path: Path) -> list[dict[str, object]]:
 
 
 def compile_program(repo: Path, output_dir: Path) -> None:
-    """Compile every source file required by Chocolate into a temporary directory."""
-    source_files = sorted((repo / "src/main/java").rglob("*.java"))
+    """Compile Chocolate's non-JavaFX console application into a temporary directory."""
+    source_root = repo / "src/main/java"
+    source_files = sorted(
+        source_file for source_file in source_root.rglob("*.java")
+        if "chocolate/gui" not in source_file.as_posix()
+        and source_file.name != "Launcher.java"
+    )
     if not source_files:
         raise FileNotFoundError("No Java source files found in src/main/java.")
     result = subprocess.run(
@@ -74,10 +79,8 @@ def compile_program(repo: Path, output_dir: Path) -> None:
 
 
 def find_main_class(repo: Path) -> str:
-    """Read the Gradle application entry point, with a simple-project fallback."""
-    build_file = repo / "build.gradle"
-    match = re.search(r"mainClass\s*=\s*'([^']+)'", build_file.read_text(encoding="utf-8"))
-    return match.group(1) if match else "Chocolate"
+    """Return the console entry point, which remains available alongside the GUI."""
+    return "chocolate.Chocolate"
 
 
 def run_session(output_dir: Path, session_input: str, working_dir: Path, main_class: str) -> str:
