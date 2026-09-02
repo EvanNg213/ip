@@ -1,0 +1,31 @@
+.root {
+    -fx-font-family: "System";
+    -fx-background-color: #fffaf5;
+}
+
+.scroll-pane,
+.scroll-pane > .viewport {
+    -fx-background-color: transparent;
+}
+
+.speaker {
+    -fx-font-size: 11px;
+    -fx-font-weight: bold;
+    -fx-text-fill: #6f513d;
+}
+
+.message {
+    -fx-background-color: #f2dfcc;
+    -fx-background-radius: 12px;
+    -fx-padding: 10px;
+    -fx-text-fill: #38251a;
+}
+
+.user-dialog .message {
+    -fx-background-color: #704214;
+    -fx-text-fill: white;
+}
+
+.user-dialog .speaker {
+    -fx-text-fill: #704214;
+}
