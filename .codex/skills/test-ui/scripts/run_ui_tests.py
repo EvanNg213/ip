@@ -10,13 +10,13 @@ import tempfile
 from pathlib import Path
 
 
-CASE_PATTERN = re.compile(
-    r"^## Test: (?P<name>.+?)\n"
-    r"Aim: (?P<aim>.+?)\n\n"
-    r"### Input\n```text\n(?P<input>.*?)\n```\n\n"
-    r"### Expected output\n```text\n(?P<expected>.*?)\n```",
-    re.MULTILINE | re.DOTALL,
-)
+CASE_PATTERN = re.compile(r"^## Test: (?P<name>.+?)\n(?P<body>.*?)(?=^## Test:|\Z)",
+                          re.MULTILINE | re.DOTALL)
+INPUT_PATTERN = re.compile(r"### Input\n```text\n(.*?)\n```", re.DOTALL)
+FIRST_INPUT_PATTERN = re.compile(r"### First-session input\n```text\n(.*?)\n```", re.DOTALL)
+SECOND_INPUT_PATTERN = re.compile(r"### Second-session input\n```text\n(.*?)\n```", re.DOTALL)
+EXPECTED_PATTERN = re.compile(r"### Expected output\n```text\n(.*?)\n```", re.DOTALL)
+SECOND_EXPECTED_PATTERN = re.compile(r"### Expected second-session output\n```text\n(.*?)\n```", re.DOTALL)
 
 
 def normalise(text: str) -> str:
@@ -24,10 +24,35 @@ def normalise(text: str) -> str:
     return text.replace("\r\n", "\n").rstrip("\n")
 
 
-def load_cases(plan_path: Path) -> list[dict[str, str]]:
+def load_cases(plan_path: Path) -> list[dict[str, object]]:
     """Read the Markdown test-plan format into runnable test cases."""
     plan = plan_path.read_text(encoding="utf-8")
-    cases = [match.groupdict() for match in CASE_PATTERN.finditer(plan)]
+    cases = []
+    for match in CASE_PATTERN.finditer(plan):
+        body = match.group("body")
+        aim_match = re.search(r"^Aim: (.+)$", body, re.MULTILINE)
+        first_input_match = FIRST_INPUT_PATTERN.search(body)
+        if first_input_match:
+            second_input_match = SECOND_INPUT_PATTERN.search(body)
+            expected_match = SECOND_EXPECTED_PATTERN.search(body)
+            if not second_input_match or not expected_match:
+                raise ValueError(f"Incomplete two-session test: {match.group('name')}")
+            inputs = [first_input_match.group(1), second_input_match.group(1)]
+        else:
+            input_match = INPUT_PATTERN.search(body)
+            expected_match = EXPECTED_PATTERN.search(body)
+            if not input_match or not expected_match:
+                raise ValueError(f"Incomplete test: {match.group('name')}")
+            inputs = [input_match.group(1)]
+
+        if not aim_match:
+            raise ValueError(f"Missing aim: {match.group('name')}")
+        cases.append({
+            "name": match.group("name"),
+            "aim": aim_match.group(1),
+            "inputs": inputs,
+            "expected": expected_match.group(1),
+        })
     if not cases:
         raise ValueError("No test cases found. Follow the format in test/ui-test-plan.md.")
     return cases
@@ -35,7 +60,7 @@ def load_cases(plan_path: Path) -> list[dict[str, str]]:
 
 def compile_program(repo: Path, output_dir: Path) -> None:
     """Compile every source file required by Chocolate into a temporary directory."""
-    source_files = sorted((repo / "src/main/java").glob("*.java"))
+    source_files = sorted((repo / "src/main/java").rglob("*.java"))
     if not source_files:
         raise FileNotFoundError("No Java source files found in src/main/java.")
     result = subprocess.run(
@@ -48,27 +73,37 @@ def compile_program(repo: Path, output_dir: Path) -> None:
         raise RuntimeError("Compilation failed:\n" + result.stderr)
 
 
-def run_case(output_dir: Path, case_input: str) -> str:
+def find_main_class(repo: Path) -> str:
+    """Read the Gradle application entry point, with a simple-project fallback."""
+    build_file = repo / "build.gradle"
+    match = re.search(r"mainClass\s*=\s*'([^']+)'", build_file.read_text(encoding="utf-8"))
+    return match.group(1) if match else "Chocolate"
+
+
+def run_session(output_dir: Path, session_input: str, working_dir: Path, main_class: str) -> str:
     """Run one new Chocolate process and return its standard output."""
     result = subprocess.run(
-        ["java", "-cp", str(output_dir), "Chocolate"],
-        input=case_input + "\n",
+        ["java", "-cp", str(output_dir), main_class],
+        input=session_input + "\n",
         capture_output=True,
         text=True,
+        cwd=working_dir,
     )
     if result.returncode != 0:
         raise RuntimeError("Chocolate stopped with an error:\n" + result.stderr)
     return result.stdout
 
 
-def print_transcript(case: dict[str, str], actual: str) -> None:
+def print_transcript(case: dict[str, object], actuals: list[str]) -> None:
     """Display the input and output from a completed console test."""
     print(f"\nTest: {case['name']}")
     print(f"Aim: {case['aim']}")
-    print("Console input:")
-    print(case["input"])
-    print("Console output:")
-    print(actual, end="" if actual.endswith("\n") else "\n")
+    for number, (case_input, actual) in enumerate(zip(case["inputs"], actuals), start=1):
+        label = "" if len(actuals) == 1 else f" (session {number})"
+        print(f"Console input{label}:")
+        print(case_input)
+        print(f"Console output{label}:")
+        print(actual, end="" if actual.endswith("\n") else "\n")
 
 
 def main() -> int:
@@ -80,10 +115,15 @@ def main() -> int:
         with tempfile.TemporaryDirectory(prefix="chocolate-ui-test-") as temporary_path:
             output_dir = Path(temporary_path)
             compile_program(repo, output_dir)
+            main_class = find_main_class(repo)
 
-            for case in cases:
-                actual = run_case(output_dir, case["input"])
-                print_transcript(case, actual)
+            for number, case in enumerate(cases, start=1):
+                case_directory = output_dir / f"case-{number}"
+                case_directory.mkdir()
+                actuals = [run_session(output_dir, case_input, case_directory, main_class)
+                           for case_input in case["inputs"]]
+                actual = actuals[-1]
+                print_transcript(case, actuals)
                 if normalise(actual) != normalise(case["expected"]):
                     print("FAIL: Actual output did not match expected output.")
                     print("Expected output:")
