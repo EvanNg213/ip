@@ -68,9 +68,9 @@ public class ParserTest {
         assertThrows(ChocolateException.class, () -> Parser.parse("mark"));
         assertThrows(ChocolateException.class, () -> Parser.parse("delete abc"));
         assertThrows(ChocolateException.class, () -> Parser.parse("find"));
-        assertThrows(ChocolateException.class,
-                () -> Parser.parse("deadline return book /by 2019-02-30"));
-        assertThrows(ChocolateException.class,
-                () -> Parser.parse("event meeting /from Monday"));
+        assertThrows(ChocolateException.class, () ->
+                Parser.parse("deadline return book /by 2019-02-30"));
+        assertThrows(ChocolateException.class, () ->
+                Parser.parse("event meeting /from Monday"));
     }
 }
