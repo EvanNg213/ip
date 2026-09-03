@@ -1,6 +1,6 @@
 .root {
     -fx-font-family: "System";
-    -fx-background-color: #fffaf5;
+    -fx-background-color: #e7c5a1;
 }
 
 .scroll-pane,
@@ -28,4 +28,21 @@
 
 .user-dialog .speaker {
     -fx-text-fill: #704214;
+}
+
+.text-field {
+    -fx-background-color: #fff8ef;
+    -fx-background-radius: 22px;
+    -fx-padding: 0 16px;
+}
+
+.button {
+    -fx-background-color: #4b2918;
+    -fx-background-radius: 22px;
+    -fx-cursor: hand;
+    -fx-text-fill: white;
+}
+
+.button:hover {
+    -fx-background-color: #704214;
 }
