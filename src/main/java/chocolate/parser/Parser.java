@@ -34,24 +34,35 @@ public class Parser {
             return ParsedCommand.createSimple(CommandType.BYE);
         } else if (input.equals("list")) {
             return ParsedCommand.createSimple(CommandType.LIST);
-        } else if (input.equals("mark") || input.startsWith("mark ")) {
+        } else if (isCommand(input, "mark")) {
             return ParsedCommand.createWithIndex(CommandType.MARK, parseTaskIndex(input, "mark"));
-        } else if (input.equals("unmark") || input.startsWith("unmark ")) {
+        } else if (isCommand(input, "unmark")) {
             return ParsedCommand.createWithIndex(
                     CommandType.UNMARK, parseTaskIndex(input, "unmark"));
-        } else if (input.equals("todo") || input.startsWith("todo ")) {
+        } else if (isCommand(input, "todo")) {
             return ParsedCommand.createWithTask(CommandType.TODO, parseTodo(input));
-        } else if (input.equals("deadline") || input.startsWith("deadline ")) {
+        } else if (isCommand(input, "deadline")) {
             return ParsedCommand.createWithTask(CommandType.DEADLINE, parseDeadline(input));
-        } else if (input.equals("event") || input.startsWith("event ")) {
+        } else if (isCommand(input, "event")) {
             return ParsedCommand.createWithTask(CommandType.EVENT, parseEvent(input));
-        } else if (input.equals("delete") || input.startsWith("delete ")) {
+        } else if (isCommand(input, "delete")) {
             return ParsedCommand.createWithIndex(
                     CommandType.DELETE, parseTaskIndex(input, "delete"));
-        } else if (input.equals("find") || input.startsWith("find ")) {
+        } else if (isCommand(input, "find")) {
             return ParsedCommand.createWithKeyword(CommandType.FIND, parseKeyword(input));
         }
         throw new ChocolateException(INVALID_COMMAND_MESSAGE);
+    }
+
+    /**
+     * Returns whether the input begins with a complete command word.
+     *
+     * @param input Complete user input.
+     * @param commandWord Command word to match.
+     * @return True when the input is the command or begins with the command followed by a space.
+     */
+    private static boolean isCommand(String input, String commandWord) {
+        return input.equals(commandWord) || input.startsWith(commandWord + " ");
     }
 
     /**
