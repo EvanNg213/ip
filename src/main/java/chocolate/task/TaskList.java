@@ -35,7 +35,9 @@ public class TaskList {
      * @param task Task to add.
      */
     public void add(Task task) {
+        int originalSize = tasks.size();
         tasks.add(task);
+        assert tasks.size() == originalSize + 1 : "Adding a task must increase the list size by one.";
     }
 
     /**
@@ -47,7 +49,10 @@ public class TaskList {
      */
     public Task delete(int index) throws ChocolateException {
         ensureValidIndex(index);
-        return tasks.remove(index);
+        int originalSize = tasks.size();
+        Task deletedTask = tasks.remove(index);
+        assert tasks.size() == originalSize - 1 : "Deleting a task must decrease the list size by one.";
+        return deletedTask;
     }
 
     /**
@@ -58,7 +63,9 @@ public class TaskList {
      */
     public void mark(int index) throws ChocolateException {
         ensureValidIndex(index);
-        tasks.get(index).markAsDone();
+        Task task = tasks.get(index);
+        task.markAsDone();
+        assert task.isDone() : "A marked task must be complete.";
     }
 
     /**
@@ -69,7 +76,9 @@ public class TaskList {
      */
     public void unmark(int index) throws ChocolateException {
         ensureValidIndex(index);
-        tasks.get(index).markAsUndone();
+        Task task = tasks.get(index);
+        task.markAsUndone();
+        assert !task.isDone() : "An unmarked task must be incomplete.";
     }
 
     /**
