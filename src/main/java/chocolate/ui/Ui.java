@@ -117,6 +117,43 @@ public class Ui {
     }
 
     /**
+     * Returns confirmation that active tasks were archived.
+     *
+     * @param taskCount Number of archived tasks.
+     * @return Archive confirmation without a console divider.
+     */
+    public String getArchivedMessage(int taskCount) {
+        return "Archived " + taskCount + " task(s). Your active task list is now empty.";
+    }
+
+    /**
+     * Returns a message for an archive request with no active tasks.
+     *
+     * @return Empty-active-list message without a console divider.
+     */
+    public String getNoTasksToArchiveMessage() {
+        return "There are no tasks to archive.";
+    }
+
+    /**
+     * Returns the display text for every archived task.
+     *
+     * @param archivedTasks Archived tasks to display.
+     * @return Formatted archived-task message without a console divider.
+     */
+    public String getArchivedTaskListMessage(List<Task> archivedTasks) {
+        if (archivedTasks.isEmpty()) {
+            return "There are no archived tasks.";
+        }
+
+        StringBuilder message = new StringBuilder("Here are your archived tasks:");
+        for (int i = 0; i < archivedTasks.size(); i++) {
+            message.append("\n").append(i + 1).append(".").append(archivedTasks.get(i));
+        }
+        return message.toString();
+    }
+
+    /**
      * Shows confirmation that a task was completed.
      *
      * @param task Updated task.

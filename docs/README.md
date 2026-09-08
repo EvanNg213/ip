@@ -28,3 +28,14 @@ expected output
 ## Feature XYZ
 
 // Feature details
+
+## Archiving tasks
+
+Use `archive` to move all active tasks into Chocolate's archive and start with an empty active list.
+Archived tasks are kept in `data/archive.txt` and are not deleted.
+
+Example: `archive`
+
+Use `archive list` to view the tasks that have been archived.
+
+Example: `archive list`

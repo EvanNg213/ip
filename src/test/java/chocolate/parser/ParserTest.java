@@ -21,6 +21,8 @@ public class ParserTest {
     public void parse_simpleCommands_correctTypes() throws ChocolateException {
         assertEquals(CommandType.BYE, Parser.parse("bye").getType());
         assertEquals(CommandType.LIST, Parser.parse("list").getType());
+        assertEquals(CommandType.ARCHIVE, Parser.parse("archive").getType());
+        assertEquals(CommandType.ARCHIVE_LIST, Parser.parse("archive list").getType());
     }
 
     @Test
@@ -68,6 +70,7 @@ public class ParserTest {
         assertThrows(ChocolateException.class, () -> Parser.parse("mark"));
         assertThrows(ChocolateException.class, () -> Parser.parse("delete abc"));
         assertThrows(ChocolateException.class, () -> Parser.parse("find"));
+        assertThrows(ChocolateException.class, () -> Parser.parse("archive all"));
         assertThrows(ChocolateException.class, () ->
                 Parser.parse("deadline return book /by 2019-02-30"));
         assertThrows(ChocolateException.class, () ->

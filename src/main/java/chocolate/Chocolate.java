@@ -104,6 +104,15 @@ public class Chocolate {
                 return ui.getDeletedMessage(deletedTask, tasks.size());
             case FIND:
                 return ui.getMatchingTasksMessage(tasks.find(command.getKeyword()));
+            case ARCHIVE:
+                if (tasks.size() == 0) {
+                    return ui.getNoTasksToArchiveMessage();
+                }
+                int archivedTaskCount = tasks.size();
+                storage.archive(tasks);
+                return ui.getArchivedMessage(archivedTaskCount);
+            case ARCHIVE_LIST:
+                return ui.getArchivedTaskListMessage(storage.loadArchived());
             default:
                 throw new ChocolateException("Unable to execute the command.");
         }

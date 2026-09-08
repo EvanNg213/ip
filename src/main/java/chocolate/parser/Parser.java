@@ -14,7 +14,8 @@ import chocolate.task.Todo;
 public class Parser {
     private static final String INVALID_COMMAND_MESSAGE =
             "That is not a valid command. Please try any of these: todo, deadline, event, "
-                    + "list, mark, unmark, delete, find, or bye.";
+                    + "list, mark, unmark, delete, find, archive, or bye.";
+    private static final String ARCHIVE_USAGE_MESSAGE = "Please use: archive or archive list.";
 
     /**
      * Prevents instantiation of this utility class.
@@ -34,6 +35,12 @@ public class Parser {
             return ParsedCommand.createSimple(CommandType.BYE);
         } else if (input.equals("list")) {
             return ParsedCommand.createSimple(CommandType.LIST);
+        } else if (input.equals("archive")) {
+            return ParsedCommand.createSimple(CommandType.ARCHIVE);
+        } else if (input.equals("archive list")) {
+            return ParsedCommand.createSimple(CommandType.ARCHIVE_LIST);
+        } else if (isCommand(input, "archive")) {
+            throw new ChocolateException(ARCHIVE_USAGE_MESSAGE);
         } else if (isCommand(input, "mark")) {
             return ParsedCommand.createWithIndex(CommandType.MARK, parseTaskIndex(input, "mark"));
         } else if (isCommand(input, "unmark")) {

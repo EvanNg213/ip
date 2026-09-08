@@ -21,5 +21,9 @@ public enum CommandType {
     /** Deletes a task. */
     DELETE,
     /** Finds tasks whose descriptions contain a keyword. */
-    FIND
+    FIND,
+    /** Archives all active tasks. */
+    ARCHIVE,
+    /** Lists every archived task. */
+    ARCHIVE_LIST
 }

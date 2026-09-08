@@ -53,6 +53,66 @@ Thank you and see you again
 **************************************
 ```
 
+## Test: Archive all active tasks and list archived tasks
+
+Aim: Verify archive moves every active task out of the list, preserves task details, and rejects unsupported archive arguments.
+
+### Input
+```text
+archive
+todo buy chocolate
+deadline submit report /by 2019-10-15
+mark 2
+archive
+list
+archive list
+archive all
+bye
+```
+
+### Expected output
+```text
+**************************************
+Chocolate
+Hi, my name is Chocolate!
+How may I help you today?
+**************************************
+**************************************
+There are no tasks to archive.
+**************************************
+**************************************
+Got it. I've added this task:
+  [T][ ] buy chocolate
+Now you have 1 tasks in the list.
+**************************************
+**************************************
+Got it. I've added this task:
+  [D][ ] submit report (by: Oct 15 2019)
+Now you have 2 tasks in the list.
+**************************************
+**************************************
+Well Done! I have marked this task as done:
+  [X] submit report
+**************************************
+**************************************
+Archived 2 task(s). Your active task list is now empty.
+**************************************
+**************************************
+Here are the tasks in your list:
+**************************************
+**************************************
+Here are your archived tasks:
+1.[T][ ] buy chocolate
+2.[D][X] submit report (by: Oct 15 2019)
+**************************************
+**************************************
+Oops! Please use: archive or archive list.
+**************************************
+**************************************
+Thank you and see you again
+**************************************
+```
+
 ## Test: Reject malformed commands without terminating
 
 Aim: Verify Parser reports missing command details and Chocolate continues accepting commands.
