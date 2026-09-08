@@ -4,8 +4,10 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.nio.file.StandardOpenOption;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.List;
 
 import chocolate.task.Deadline;
 import chocolate.task.Event;
@@ -18,6 +20,7 @@ import chocolate.task.Todo;
  */
 public class Storage {
     private final Path filePath;
+    private final Path archiveFilePath;
 
     /**
      * Creates storage that reads from and writes to the specified file.
@@ -25,7 +28,18 @@ public class Storage {
      * @param filePath Path of the task data file.
      */
     public Storage(Path filePath) {
+        this(filePath, filePath.resolveSibling("archive.txt"));
+    }
+
+    /**
+     * Creates storage with separate active-task and archive files.
+     *
+     * @param filePath Path of the active task data file.
+     * @param archiveFilePath Path of the archived task data file.
+     */
+    public Storage(Path filePath, Path archiveFilePath) {
         this.filePath = filePath;
+        this.archiveFilePath = archiveFilePath;
     }
 
     /**
@@ -36,12 +50,33 @@ public class Storage {
      * @throws IOException If the existing data file cannot be read.
      */
     public ArrayList<Task> load() throws IOException {
+        return loadTasks(filePath);
+    }
+
+    /**
+     * Loads every valid archived task from the archive file.
+     *
+     * @return Archived tasks reconstructed from valid file records.
+     * @throws IOException If the existing archive file cannot be read.
+     */
+    public ArrayList<Task> loadArchived() throws IOException {
+        return loadTasks(archiveFilePath);
+    }
+
+    /**
+     * Loads every valid task from a storage file.
+     *
+     * @param sourceFile Path of the file to load.
+     * @return Tasks reconstructed from valid file records.
+     * @throws IOException If the existing file cannot be read.
+     */
+    private ArrayList<Task> loadTasks(Path sourceFile) throws IOException {
         ArrayList<Task> tasks = new ArrayList<>();
-        if (!Files.exists(filePath)) {
+        if (!Files.exists(sourceFile)) {
             return tasks;
         }
 
-        for (String line : Files.readAllLines(filePath, StandardCharsets.UTF_8)) {
+        for (String line : Files.readAllLines(sourceFile, StandardCharsets.UTF_8)) {
             Task task = parseTask(line);
             if (task != null) {
                 tasks.add(task);
@@ -67,6 +102,29 @@ public class Storage {
             lines.add(formatTask(task));
         }
         Files.write(filePath, lines, StandardCharsets.UTF_8);
+    }
+
+    /**
+     * Appends active tasks to the archive and clears the active task list.
+     *
+     * @param tasks Active tasks to archive.
+     * @throws IOException If either data file cannot be written.
+     */
+    public void archive(TaskList tasks) throws IOException {
+        Path archiveParent = archiveFilePath.getParent();
+        if (archiveParent != null) {
+            Files.createDirectories(archiveParent);
+        }
+
+        List<String> archiveLines = new ArrayList<>();
+        for (Task task : tasks.getAll()) {
+            archiveLines.add(formatTask(task));
+        }
+        Files.write(archiveFilePath, archiveLines, StandardCharsets.UTF_8,
+                StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+
+        tasks.clear();
+        save(tasks);
     }
 
     /**

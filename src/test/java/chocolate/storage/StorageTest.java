@@ -83,4 +83,28 @@ public class StorageTest {
         assertInstanceOf(Todo.class, loadedTasks.get(0));
         assertEquals("valid task", loadedTasks.get(0).getDescription());
     }
+
+    @Test
+    public void archive_activeTasks_appendsTasksAndClearsActiveList()
+            throws IOException, ChocolateException {
+        Path dataFile = tempDirectory.resolve("duke.txt");
+        Path archiveFile = tempDirectory.resolve("archive.txt");
+        Storage storage = new Storage(dataFile, archiveFile);
+        TaskList activeTasks = new TaskList();
+        activeTasks.add(new Todo("read book"));
+        activeTasks.add(new Deadline("return book", LocalDate.of(2019, 10, 15)));
+        activeTasks.mark(1);
+
+        storage.archive(activeTasks);
+        activeTasks.add(new Todo("buy chocolate"));
+        storage.archive(activeTasks);
+
+        ArrayList<Task> archivedTasks = storage.loadArchived();
+        assertTrue(activeTasks.getAll().isEmpty());
+        assertTrue(storage.load().isEmpty());
+        assertEquals(3, archivedTasks.size());
+        assertEquals("read book", archivedTasks.get(0).getDescription());
+        assertTrue(archivedTasks.get(1).isDone());
+        assertEquals("buy chocolate", archivedTasks.get(2).getDescription());
+    }
 }

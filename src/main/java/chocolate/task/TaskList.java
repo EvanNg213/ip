@@ -42,6 +42,14 @@ public class TaskList {
     }
 
     /**
+     * Removes every task from this list.
+     */
+    public void clear() {
+        tasks.clear();
+        assert tasks.isEmpty() : "Clearing a task list must leave it empty.";
+    }
+
+    /**
      * Deletes the task at the specified index.
      *
      * @param index Zero-based task index.
