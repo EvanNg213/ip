@@ -31,6 +31,7 @@ public class Parser {
      * @throws ChocolateException If the command or its arguments are invalid.
      */
     public static ParsedCommand parse(String input) throws ChocolateException {
+        input = input.trim().replaceAll("\\s+", " ");
         if (input.equals("bye")) {
             return ParsedCommand.createSimple(CommandType.BYE);
         } else if (input.equals("list")) {
@@ -98,7 +99,8 @@ public class Parser {
     private static Deadline parseDeadline(String input) throws ChocolateException {
         String details = input.substring("deadline".length()).trim();
         int byIndex = details.indexOf(" /by ");
-        if (byIndex <= 0 || byIndex + " /by ".length() >= details.length()) {
+        if (countOccurrences(details, " /by ") != 1
+                || byIndex <= 0 || byIndex + " /by ".length() >= details.length()) {
             throw new ChocolateException("Please use: deadline DESCRIPTION /by yyyy-MM-dd.");
         }
 
@@ -122,7 +124,8 @@ public class Parser {
         String details = input.substring("event".length()).trim();
         int fromIndex = details.indexOf(" /from ");
         int toIndex = details.indexOf(" /to ");
-        if (fromIndex <= 0 || toIndex <= fromIndex + " /from ".length()
+        if (countOccurrences(details, " /from ") != 1 || countOccurrences(details, " /to ") != 1
+                || fromIndex <= 0 || toIndex <= fromIndex + " /from ".length()
                 || toIndex + " /to ".length() >= details.length()) {
             throw new ChocolateException("Please use: event DESCRIPTION /from START /to END.");
         }
@@ -130,7 +133,28 @@ public class Parser {
         String description = details.substring(0, fromIndex);
         String from = details.substring(fromIndex + " /from ".length(), toIndex);
         String to = details.substring(toIndex + " /to ".length());
+        validateEventDateRange(from, to);
         return new Event(description, from, to);
+    }
+
+    /**
+     * Rejects ISO-date event ranges whose end is not after their start.
+     * Non-date event details remain supported as free-form text.
+     *
+     * @param from Start detail supplied by the user.
+     * @param to End detail supplied by the user.
+     * @throws ChocolateException If two ISO dates form an invalid range.
+     */
+    private static void validateEventDateRange(String from, String to) throws ChocolateException {
+        try {
+            LocalDate startDate = LocalDate.parse(from);
+            LocalDate endDate = LocalDate.parse(to);
+            if (!startDate.isBefore(endDate)) {
+                throw new ChocolateException("The event end date must be after its start date.");
+            }
+        } catch (DateTimeParseException e) {
+            // Event date/time details are intentionally allowed to be free-form text.
+        }
     }
 
     /**
@@ -148,10 +172,31 @@ public class Parser {
             throw new ChocolateException("Please provide a task number!");
         }
         try {
-            return Integer.parseInt(numberText) - 1;
+            int taskNumber = Integer.parseInt(numberText);
+            if (taskNumber < 1) {
+                throw new ChocolateException("Task number must be at least 1.");
+            }
+            return taskNumber - 1;
         } catch (NumberFormatException e) {
             throw new ChocolateException("Please provide a whole number for the task number!");
         }
+    }
+
+    /**
+     * Counts non-overlapping appearances of a parameter marker.
+     *
+     * @param text Text to inspect.
+     * @param marker Parameter marker to count.
+     * @return Number of appearances of the marker.
+     */
+    private static int countOccurrences(String text, String marker) {
+        int count = 0;
+        int index = text.indexOf(marker);
+        while (index >= 0) {
+            count++;
+            index = text.indexOf(marker, index + marker.length());
+        }
+        return count;
     }
 
     /**

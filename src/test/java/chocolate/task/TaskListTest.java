@@ -61,6 +61,17 @@ public class TaskListTest {
     }
 
     @Test
+    public void contains_sameDisplayedTask_returnsTrue() throws ChocolateException {
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("read book"));
+
+        assertTrue(tasks.contains(new Todo("read book")));
+        assertFalse(tasks.contains(new Todo("write report")));
+        tasks.mark(0);
+        assertTrue(tasks.contains(new Todo("read book")));
+    }
+
+    @Test
     public void find_keywordWithDifferentCase_returnsMatchingDescriptions() {
         TaskList tasks = new TaskList();
         Todo firstMatch = new Todo("Read Book");
