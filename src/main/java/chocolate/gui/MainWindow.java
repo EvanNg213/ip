@@ -1,6 +1,7 @@
 package chocolate.gui;
 
 import chocolate.Chocolate;
+import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
@@ -38,8 +39,8 @@ public class MainWindow extends AnchorPane {
      */
     public void setChocolate(Chocolate chocolate) {
         this.chocolate = chocolate;
-        dialogContainer.getChildren().add(DialogBox.getChocolateDialog(
-                "Hi, my name is Chocolate!\nHow may I help you today?"));
+        addDialog(DialogBox.getChocolateDialog("Hi, my name is Chocolate!\nHow may I help you today?"));
+        focusUserInput();
     }
 
     /**
@@ -53,9 +54,26 @@ public class MainWindow extends AnchorPane {
         }
 
         String response = chocolate.getResponse(input);
-        dialogContainer.getChildren().addAll(
-                DialogBox.getUserDialog(input),
-                DialogBox.getChocolateDialog(response));
+        addDialog(DialogBox.getUserDialog(input));
+        addDialog(DialogBox.getChocolateDialog(response));
         userInput.clear();
+        focusUserInput();
+    }
+
+    /**
+     * Adds a responsive dialog that can use up to 72% of the conversation width.
+     *
+     * @param dialogBox Dialog to add to the conversation.
+     */
+    private void addDialog(DialogBox dialogBox) {
+        dialogBox.bindMaximumBubbleWidth(scrollPane.widthProperty());
+        dialogContainer.getChildren().add(dialogBox);
+    }
+
+    /**
+     * Returns keyboard focus to the command field after the window has updated.
+     */
+    private void focusUserInput() {
+        Platform.runLater(userInput::requestFocus);
     }
 }
