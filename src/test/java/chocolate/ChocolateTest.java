@@ -69,4 +69,24 @@ public class ChocolateTest {
         assertEquals("Here are your archived treats:\n1.[T][ ] buy chocolate",
                 restartedChocolate.getResponse("archive list"));
     }
+
+    @Test
+    public void getResponse_taskCommands_updateAndSearchTheList() {
+        Chocolate chocolate = new Chocolate(temporaryDirectory.resolve("tasks.txt").toString());
+
+        chocolate.getResponse("todo read book");
+        chocolate.getResponse("deadline return book /by 2019-10-15");
+        chocolate.getResponse("event project meeting /from Mon 2pm /to 4pm");
+        assertEquals("Delicious progress! I've marked this task as done:\n  [X] return book",
+                chocolate.getResponse("mark 2"));
+        assertEquals("No worries! I've marked this task as not done yet:\n  [ ] return book",
+                chocolate.getResponse("unmark 2"));
+        assertEquals("Here are the matching tasks in your list:\n1.[D][ ] return book (by: Oct 15 2019)",
+                chocolate.getResponse("find RETURN"));
+        assertEquals("Poof! This task has melted away:\n  [E][ ] project meeting (from: Mon 2pm to: 4pm)"
+                        + "\nYou now have 2 tasks left on your tray.",
+                chocolate.getResponse("delete 3"));
+        assertEquals("Thanks for visiting Chocolate's Cocoa Corner. See you soon!",
+                chocolate.getResponse("bye"));
+    }
 }

@@ -107,4 +107,25 @@ public class StorageTest {
         assertTrue(archivedTasks.get(1).isDone());
         assertEquals("buy chocolate", archivedTasks.get(2).getDescription());
     }
+
+    @Test
+    public void loadArchived_missingFile_returnsEmptyList() throws IOException {
+        Storage storage = new Storage(tempDirectory.resolve("duke.txt"));
+
+        assertTrue(storage.loadArchived().isEmpty());
+    }
+
+    @Test
+    public void save_emptyList_replacesPreviouslySavedTasks() throws IOException {
+        Path dataFile = tempDirectory.resolve("duke.txt");
+        Storage storage = new Storage(dataFile);
+        TaskList tasks = new TaskList();
+        tasks.add(new Todo("read book"));
+        storage.save(tasks);
+
+        storage.save(new TaskList());
+
+        assertTrue(Files.exists(dataFile));
+        assertTrue(storage.load().isEmpty());
+    }
 }
