@@ -95,6 +95,9 @@ public class Chocolate {
             case DEADLINE:
                 // Fallthrough
             case EVENT:
+                if (tasks.contains(command.getTask())) {
+                    throw new ChocolateException("That task is already on your list!");
+                }
                 tasks.add(command.getTask());
                 storage.save(tasks);
                 return ui.getAddedMessage(command.getTask(), tasks.size());

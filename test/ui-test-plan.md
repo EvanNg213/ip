@@ -53,6 +53,54 @@ Thanks for visiting Chocolate's Cocoa Corner. See you soon!
 **************************************
 ```
 
+## Test: Recover from flexible spacing, duplicates, and invalid values
+
+Aim: Verify Chocolate normalizes ordinary spacing, rejects invalid additions and date ranges, and preserves the task list after errors.
+
+### Input
+```text
+  todo   brew cocoa
+todo brew cocoa
+deadline submit report /by 2019-10-15 /by 2019-10-16
+event meeting /from 2019-10-15 /to 2019-10-15
+mark 0
+list
+bye
+```
+
+### Expected output
+```text
+**************************************
+Chocolate
+Hello! I'm Chocolate, your task chocolatier.
+What shall we sweeten up today?
+**************************************
+**************************************
+Sweet! I've added this to your list:
+  [T][ ] brew cocoa
+You now have 1 tasks on your tray.
+**************************************
+**************************************
+Oops! That crumbled. That task is already on your list!
+**************************************
+**************************************
+Oops! That crumbled. Please use: deadline DESCRIPTION /by yyyy-MM-dd.
+**************************************
+**************************************
+Oops! That crumbled. The event end date must be after its start date.
+**************************************
+**************************************
+Oops! That crumbled. Task number must be at least 1.
+**************************************
+**************************************
+Here are the tasks in your list:
+1.[T][ ] brew cocoa
+**************************************
+**************************************
+Thanks for visiting Chocolate's Cocoa Corner. See you soon!
+**************************************
+```
+
 ## Test: Archive all active tasks and list archived tasks
 
 Aim: Verify archive moves every active task out of the list, preserves task details, and rejects unsupported archive arguments.

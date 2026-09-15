@@ -42,6 +42,27 @@ public class TaskList {
     }
 
     /**
+     * Returns whether the list already contains a task with the same displayed details.
+     *
+     * @param task Task to compare with active tasks.
+     * @return True when an equivalent task is already active.
+     */
+    public boolean contains(Task task) {
+        String taskDetails = withoutStatus(task);
+        return tasks.stream().anyMatch(existingTask -> withoutStatus(existingTask).equals(taskDetails));
+    }
+
+    /**
+     * Returns a task's display details without its completion marker.
+     *
+     * @param task Task whose details are needed.
+     * @return Task display details that are independent of done status.
+     */
+    private String withoutStatus(Task task) {
+        return task.toString().replace("[X]", "[ ]");
+    }
+
+    /**
      * Removes every task from this list.
      */
     public void clear() {

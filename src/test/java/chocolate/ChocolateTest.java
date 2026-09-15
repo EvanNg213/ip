@@ -36,6 +36,23 @@ public class ChocolateTest {
     }
 
     @Test
+    public void getResponse_invalidInput_returnsHelpfulErrorWithoutChangingTasks() {
+        Chocolate chocolate = new Chocolate(temporaryDirectory.resolve("tasks.txt").toString());
+
+        assertEquals("Sweet! I've added this to your list:\n  [T][ ] buy chocolate"
+                        + "\nYou now have 1 tasks on your tray.",
+                chocolate.getResponse("  todo   buy chocolate  "));
+        assertEquals("Oops! That crumbled. That task is already on your list!",
+                chocolate.getResponse("todo buy chocolate"));
+        assertEquals("Oops! That crumbled. Task number must be at least 1.",
+                chocolate.getResponse("mark 0"));
+        assertEquals("Oops! That crumbled. The event end date must be after its start date.",
+                chocolate.getResponse("event meeting /from 2019-10-15 /to 2019-10-15"));
+        assertEquals("Here are the tasks in your list:\n1.[T][ ] buy chocolate",
+                chocolate.getResponse("list"));
+    }
+
+    @Test
     public void getResponse_archiveCommands_archivesAndListsTasks() {
         Chocolate chocolate = new Chocolate(temporaryDirectory.resolve("duke.txt").toString());
 
