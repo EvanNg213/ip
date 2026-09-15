@@ -22,23 +22,23 @@ bye
 ```text
 **************************************
 Chocolate
-Hi, my name is Chocolate!
-How may I help you today?
+Hello! I'm Chocolate, your task chocolatier.
+What shall we sweeten up today?
 **************************************
 **************************************
-Got it. I've added this task:
+Sweet! I've added this to your list:
   [T][ ] Read Book
-Now you have 1 tasks in the list.
+You now have 1 tasks on your tray.
 **************************************
 **************************************
-Got it. I've added this task:
+Sweet! I've added this to your list:
   [D][ ] return book (by: Oct 15 2019)
-Now you have 2 tasks in the list.
+You now have 2 tasks on your tray.
 **************************************
 **************************************
-Got it. I've added this task:
+Sweet! I've added this to your list:
   [E][ ] project meeting (from: Mon 2pm to: 4pm)
-Now you have 3 tasks in the list.
+You now have 3 tasks on your tray.
 **************************************
 **************************************
 Here are the matching tasks in your list:
@@ -49,7 +49,7 @@ Here are the matching tasks in your list:
 Here are the matching tasks in your list:
 **************************************
 **************************************
-Thank you and see you again
+Thanks for visiting Chocolate's Cocoa Corner. See you soon!
 **************************************
 ```
 
@@ -74,42 +74,42 @@ bye
 ```text
 **************************************
 Chocolate
-Hi, my name is Chocolate!
-How may I help you today?
+Hello! I'm Chocolate, your task chocolatier.
+What shall we sweeten up today?
 **************************************
 **************************************
-There are no tasks to archive.
+The archive basket is empty.
 **************************************
 **************************************
-Got it. I've added this task:
+Sweet! I've added this to your list:
   [T][ ] buy chocolate
-Now you have 1 tasks in the list.
+You now have 1 tasks on your tray.
 **************************************
 **************************************
-Got it. I've added this task:
+Sweet! I've added this to your list:
   [D][ ] submit report (by: Oct 15 2019)
-Now you have 2 tasks in the list.
+You now have 2 tasks on your tray.
 **************************************
 **************************************
-Well Done! I have marked this task as done:
+Delicious progress! I've marked this task as done:
   [X] submit report
 **************************************
 **************************************
-Archived 2 task(s). Your active task list is now empty.
+Your 2 task(s) are tucked safely into the archive.
 **************************************
 **************************************
 Here are the tasks in your list:
 **************************************
 **************************************
-Here are your archived tasks:
+Here are your archived treats:
 1.[T][ ] buy chocolate
 2.[D][X] submit report (by: Oct 15 2019)
 **************************************
 **************************************
-Oops! Please use: archive or archive list.
+Oops! That crumbled. Please use: archive or archive list.
 **************************************
 **************************************
-Thank you and see you again
+Thanks for visiting Chocolate's Cocoa Corner. See you soon!
 **************************************
 ```
 
@@ -130,23 +130,23 @@ bye
 ```text
 **************************************
 Chocolate
-Hi, my name is Chocolate!
-How may I help you today?
+Hello! I'm Chocolate, your task chocolatier.
+What shall we sweeten up today?
 **************************************
 **************************************
-Oops! Please provide a task number!
+Oops! That crumbled. Please provide a task number!
 **************************************
 **************************************
-Oops! Please provide a whole number for the task number!
+Oops! That crumbled. Please provide a whole number for the task number!
 **************************************
 **************************************
-Oops! Please use: deadline DESCRIPTION /by yyyy-MM-dd.
+Oops! That crumbled. Please use: deadline DESCRIPTION /by yyyy-MM-dd.
 **************************************
 **************************************
-Oops! Please use: event DESCRIPTION /from START /to END.
+Oops! That crumbled. Please use: event DESCRIPTION /from START /to END.
 **************************************
 **************************************
-Thank you and see you again
+Thanks for visiting Chocolate's Cocoa Corner. See you soon!
 **************************************
 ```
 
@@ -166,20 +166,20 @@ bye
 ```text
 **************************************
 Chocolate
-Hi, my name is Chocolate!
-How may I help you today?
+Hello! I'm Chocolate, your task chocolatier.
+What shall we sweeten up today?
 **************************************
 **************************************
-Oops! Please use the date format yyyy-MM-dd.
+Oops! That crumbled. Please use the date format yyyy-MM-dd.
 **************************************
 **************************************
-Oops! Please use the date format yyyy-MM-dd.
+Oops! That crumbled. Please use the date format yyyy-MM-dd.
 **************************************
 **************************************
 Here are the tasks in your list:
 **************************************
 **************************************
-Thank you and see you again
+Thanks for visiting Chocolate's Cocoa Corner. See you soon!
 **************************************
 ```
 
@@ -205,8 +205,8 @@ bye
 ```text
 **************************************
 Chocolate
-Hi, my name is Chocolate!
-How may I help you today?
+Hello! I'm Chocolate, your task chocolatier.
+What shall we sweeten up today?
 **************************************
 **************************************
 Here are the tasks in your list:
@@ -214,7 +214,7 @@ Here are the tasks in your list:
 2.[D][X] return book (by: Oct 15 2019)
 **************************************
 **************************************
-Thank you and see you again
+Thanks for visiting Chocolate's Cocoa Corner. See you soon!
 **************************************
 ```
 
@@ -237,23 +237,23 @@ bye
 ```text
 **************************************
 Chocolate
-Hi, my name is Chocolate!
-How may I help you today?
+Hello! I'm Chocolate, your task chocolatier.
+What shall we sweeten up today?
 **************************************
 **************************************
-Got it. I've added this task:
+Sweet! I've added this to your list:
   [T][ ] borrow book
-Now you have 1 tasks in the list.
+You now have 1 tasks on your tray.
 **************************************
 **************************************
-Got it. I've added this task:
+Sweet! I've added this to your list:
   [D][ ] return book (by: Oct 15 2019)
-Now you have 2 tasks in the list.
+You now have 2 tasks on your tray.
 **************************************
 **************************************
-Got it. I've added this task:
+Sweet! I've added this to your list:
   [E][ ] project meeting (from: Mon 2pm to: 4pm)
-Now you have 3 tasks in the list.
+You now have 3 tasks on your tray.
 **************************************
 **************************************
 Here are the tasks in your list:
@@ -262,15 +262,15 @@ Here are the tasks in your list:
 3.[E][ ] project meeting (from: Mon 2pm to: 4pm)
 **************************************
 **************************************
-Well Done! I have marked this task as done:
+Delicious progress! I've marked this task as done:
   [X] return book
 **************************************
 **************************************
-Alright, I have marked this task as not done yet:
+No worries! I've marked this task as not done yet:
   [ ] return book
 **************************************
 **************************************
-Thank you and see you again
+Thanks for visiting Chocolate's Cocoa Corner. See you soon!
 **************************************
 ```
 
@@ -291,26 +291,26 @@ bye
 ```text
 **************************************
 Chocolate
-Hi, my name is Chocolate!
-How may I help you today?
+Hello! I'm Chocolate, your task chocolatier.
+What shall we sweeten up today?
 **************************************
 **************************************
-Oops! Please provide a valid description after the command you used!
+Oops! That crumbled. Please provide a valid description after the command you used!
 **************************************
 **************************************
 Here are the tasks in your list:
 **************************************
 **************************************
-Got it. I've added this task:
+Sweet! I've added this to your list:
   [T][ ] read book
-Now you have 1 tasks in the list.
+You now have 1 tasks on your tray.
 **************************************
 **************************************
 Here are the tasks in your list:
 1.[T][ ] read book
 **************************************
 **************************************
-Thank you and see you again
+Thanks for visiting Chocolate's Cocoa Corner. See you soon!
 **************************************
 ```
 
@@ -334,28 +334,28 @@ bye
 ```text
 **************************************
 Chocolate
-Hi, my name is Chocolate!
-How may I help you today?
+Hello! I'm Chocolate, your task chocolatier.
+What shall we sweeten up today?
 **************************************
 **************************************
-Got it. I've added this task:
+Sweet! I've added this to your list:
   [T][ ] read book
-Now you have 1 tasks in the list.
+You now have 1 tasks on your tray.
 **************************************
 **************************************
-Got it. I've added this task:
+Sweet! I've added this to your list:
   [D][ ] return book (by: Oct 15 2019)
-Now you have 2 tasks in the list.
+You now have 2 tasks on your tray.
 **************************************
 **************************************
-Got it. I've added this task:
+Sweet! I've added this to your list:
   [E][ ] project meeting (from: Mon 2pm to: 4pm)
-Now you have 3 tasks in the list.
+You now have 3 tasks on your tray.
 **************************************
 **************************************
-Got it. I have removed the task:
+Poof! This task has melted away:
   [D][ ] return book (by: Oct 15 2019)
-You now have 2 tasks left in your list!
+You now have 2 tasks left on your tray.
 **************************************
 **************************************
 Here are the tasks in your list:
@@ -363,7 +363,7 @@ Here are the tasks in your list:
 2.[E][ ] project meeting (from: Mon 2pm to: 4pm)
 **************************************
 **************************************
-Oops! That task number does not exist in your list!
+Oops! That crumbled. That task number does not exist in your list!
 **************************************
 **************************************
 Here are the tasks in your list:
@@ -371,6 +371,6 @@ Here are the tasks in your list:
 2.[E][ ] project meeting (from: Mon 2pm to: 4pm)
 **************************************
 **************************************
-Thank you and see you again
+Thanks for visiting Chocolate's Cocoa Corner. See you soon!
 **************************************
 ```

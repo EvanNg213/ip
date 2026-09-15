@@ -18,8 +18,8 @@ public class ChocolateTest {
     public void getResponse_validCommands_returnsExpectedReplies() {
         Chocolate chocolate = new Chocolate(temporaryDirectory.resolve("tasks.txt").toString());
 
-        assertEquals("Got it. I've added this task:\n  [T][ ] buy chocolate"
-                        + "\nNow you have 1 tasks in the list.",
+        assertEquals("Sweet! I've added this to your list:\n  [T][ ] buy chocolate"
+                        + "\nYou now have 1 tasks on your tray.",
                 chocolate.getResponse("todo buy chocolate"));
         assertEquals("Here are the tasks in your list:\n1.[T][ ] buy chocolate",
                 chocolate.getResponse("list"));
@@ -29,7 +29,8 @@ public class ChocolateTest {
     public void getResponse_invalidCommand_returnsErrorReply() {
         Chocolate chocolate = new Chocolate(temporaryDirectory.resolve("tasks.txt").toString());
 
-        assertEquals("Oops! That is not a valid command. Please try any of these: todo, deadline, event, "
+        assertEquals("Oops! That crumbled. That is not a valid command. "
+                        + "Please try any of these: todo, deadline, event, "
                         + "list, mark, unmark, delete, find, archive, or bye.",
                 chocolate.getResponse("invalid"));
     }
@@ -38,17 +39,17 @@ public class ChocolateTest {
     public void getResponse_archiveCommands_archivesAndListsTasks() {
         Chocolate chocolate = new Chocolate(temporaryDirectory.resolve("duke.txt").toString());
 
-        assertEquals("There are no tasks to archive.", chocolate.getResponse("archive"));
+        assertEquals("The archive basket is empty.", chocolate.getResponse("archive"));
         chocolate.getResponse("todo buy chocolate");
-        assertEquals("Archived 1 task(s). Your active task list is now empty.",
+        assertEquals("Your 1 task(s) are tucked safely into the archive.",
                 chocolate.getResponse("archive"));
         assertEquals("Here are the tasks in your list:", chocolate.getResponse("list"));
-        assertEquals("Here are your archived tasks:\n1.[T][ ] buy chocolate",
+        assertEquals("Here are your archived treats:\n1.[T][ ] buy chocolate",
                 chocolate.getResponse("archive list"));
 
         Chocolate restartedChocolate = new Chocolate(temporaryDirectory.resolve("duke.txt").toString());
         assertEquals("Here are the tasks in your list:", restartedChocolate.getResponse("list"));
-        assertEquals("Here are your archived tasks:\n1.[T][ ] buy chocolate",
+        assertEquals("Here are your archived treats:\n1.[T][ ] buy chocolate",
                 restartedChocolate.getResponse("archive list"));
     }
 }
