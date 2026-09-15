@@ -84,4 +84,29 @@ public class ParserTest {
         assertThrows(ChocolateException.class, () ->
                 Parser.parse("event meeting /from 2019-10-15 /to 2019-10-15"));
     }
+
+    @Test
+    public void parse_boundaryInputs_reportsSpecificErrors() {
+        assertEquals("Task number must be at least 1.",
+                assertThrows(ChocolateException.class, () -> Parser.parse("mark -5")).getMessage());
+        assertEquals("Please provide a whole number for the task number!",
+                assertThrows(ChocolateException.class, () -> Parser.parse("delete 999999999999999999999"))
+                        .getMessage());
+        assertEquals("Please use: deadline DESCRIPTION /by yyyy-MM-dd.",
+                assertThrows(ChocolateException.class, () -> Parser.parse("deadline /by 2019-10-15"))
+                        .getMessage());
+        ChocolateException duplicateFromException = assertThrows(ChocolateException.class, () ->
+                Parser.parse("event meeting /from Mon /from Tue /to Wed"));
+        assertEquals("Please use: event DESCRIPTION /from START /to END.",
+                duplicateFromException.getMessage());
+    }
+
+    @Test
+    public void parse_eventWithAscendingIsoDates_createsEvent() throws ChocolateException {
+        Event event = assertInstanceOf(Event.class,
+                Parser.parse("event conference /from 2019-10-15 /to 2019-10-16").getTask());
+
+        assertEquals("2019-10-15", event.getStart());
+        assertEquals("2019-10-16", event.getEnd());
+    }
 }
