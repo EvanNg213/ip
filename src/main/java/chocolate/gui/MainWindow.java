@@ -39,7 +39,8 @@ public class MainWindow extends AnchorPane {
      */
     public void setChocolate(Chocolate chocolate) {
         this.chocolate = chocolate;
-        addDialog(DialogBox.getChocolateDialog("Hi, my name is Chocolate!\nHow may I help you today?"));
+        addDialog(DialogBox.getChocolateDialog(
+                "Hello! I'm Chocolate, your task chocolatier.\nWhat shall we sweeten up today?"));
         focusUserInput();
     }
 

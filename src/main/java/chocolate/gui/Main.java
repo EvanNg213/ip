@@ -27,7 +27,7 @@ public class Main extends Application {
             AnchorPane root = loader.load();
             MainWindow mainWindow = loader.getController();
             mainWindow.setChocolate(chocolate);
-            stage.setTitle("Chocolate");
+            stage.setTitle("Chocolate's Cocoa Corner");
             stage.setScene(new Scene(root));
             stage.show();
         } catch (IOException e) {

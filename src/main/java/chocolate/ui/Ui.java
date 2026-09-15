@@ -35,7 +35,7 @@ public class Ui {
      * @return Greeting message without console dividers.
      */
     public String getWelcomeMessage() {
-        return "Chocolate\nHi, my name is Chocolate!\nHow may I help you today?";
+        return "Chocolate\nHello! I'm Chocolate, your task chocolatier.\nWhat shall we sweeten up today?";
     }
 
     /**
@@ -67,7 +67,7 @@ public class Ui {
      * @return Farewell message without a console divider.
      */
     public String getGoodbyeMessage() {
-        return "Thank you and see you again";
+        return "Thanks for visiting Chocolate's Cocoa Corner. See you soon!";
     }
 
     /**
@@ -123,7 +123,7 @@ public class Ui {
      * @return Archive confirmation without a console divider.
      */
     public String getArchivedMessage(int taskCount) {
-        return "Archived " + taskCount + " task(s). Your active task list is now empty.";
+        return "Your " + taskCount + " task(s) are tucked safely into the archive.";
     }
 
     /**
@@ -132,7 +132,7 @@ public class Ui {
      * @return Empty-active-list message without a console divider.
      */
     public String getNoTasksToArchiveMessage() {
-        return "There are no tasks to archive.";
+        return "The archive basket is empty.";
     }
 
     /**
@@ -143,10 +143,10 @@ public class Ui {
      */
     public String getArchivedTaskListMessage(List<Task> archivedTasks) {
         if (archivedTasks.isEmpty()) {
-            return "There are no archived tasks.";
+            return "The archive basket is empty.";
         }
 
-        StringBuilder message = new StringBuilder("Here are your archived tasks:");
+        StringBuilder message = new StringBuilder("Here are your archived treats:");
         for (int i = 0; i < archivedTasks.size(); i++) {
             message.append("\n").append(i + 1).append(".").append(archivedTasks.get(i));
         }
@@ -169,7 +169,7 @@ public class Ui {
      * @return Completion confirmation without a console divider.
      */
     public String getMarkedMessage(Task task) {
-        return "Well Done! I have marked this task as done:\n  [X] " + task.getDescription();
+        return "Delicious progress! I've marked this task as done:\n  [X] " + task.getDescription();
     }
 
     /**
@@ -188,7 +188,7 @@ public class Ui {
      * @return Incomplete confirmation without a console divider.
      */
     public String getUnmarkedMessage(Task task) {
-        return "Alright, I have marked this task as not done yet:\n  [ ] " + task.getDescription();
+        return "No worries! I've marked this task as not done yet:\n  [ ] " + task.getDescription();
     }
 
     /**
@@ -209,8 +209,8 @@ public class Ui {
      * @return Addition confirmation without a console divider.
      */
     public String getAddedMessage(Task task, int taskCount) {
-        return "Got it. I've added this task:\n  " + task
-                + "\nNow you have " + taskCount + " tasks in the list.";
+        return "Sweet! I've added this to your list:\n  " + task
+                + "\nYou now have " + taskCount + " tasks on your tray.";
     }
 
     /**
@@ -231,8 +231,8 @@ public class Ui {
      * @return Deletion confirmation without a console divider.
      */
     public String getDeletedMessage(Task task, int taskCount) {
-        return "Got it. I have removed the task:\n  " + task
-                + "\nYou now have " + taskCount + " tasks left in your list!";
+        return "Poof! This task has melted away:\n  " + task
+                + "\nYou now have " + taskCount + " tasks left on your tray.";
     }
 
     /**
@@ -251,7 +251,7 @@ public class Ui {
      * @return Formatted error message without a console divider.
      */
     public String getErrorMessage(String message) {
-        return "Oops! " + message;
+        return "Oops! That crumbled. " + message;
     }
 
     /**
