@@ -3,6 +3,7 @@ package chocolate.gui;
 import java.io.IOException;
 import java.util.Collections;
 
+import javafx.beans.property.ReadOnlyDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -11,6 +12,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Node;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
+import javafx.scene.layout.VBox;
 
 /**
  * A chat dialogue containing the speaker name and message text.
@@ -20,6 +22,8 @@ public class DialogBox extends HBox {
     private Label speaker;
     @FXML
     private Label dialog;
+    @FXML
+    private VBox messageBox;
 
     private DialogBox(String speakerName, String text) {
         try {
@@ -47,6 +51,16 @@ public class DialogBox extends HBox {
     }
 
     /**
+     * Limits this message bubble to a proportion of the conversation pane.
+     *
+     * @param conversationWidth Width of the scrollable conversation pane.
+     */
+    public void bindMaximumBubbleWidth(ReadOnlyDoubleProperty conversationWidth) {
+        messageBox.maxWidthProperty().bind(conversationWidth.multiply(0.72));
+        dialog.maxWidthProperty().bind(messageBox.maxWidthProperty());
+    }
+
+    /**
      * Creates a right-aligned dialogue for the user.
      *
      * @param text Text entered by the user.
@@ -67,6 +81,9 @@ public class DialogBox extends HBox {
     public static DialogBox getChocolateDialog(String text) {
         DialogBox dialogBox = new DialogBox("Chocolate", text);
         dialogBox.flip();
+        if (text.startsWith("Oops!")) {
+            dialogBox.getStyleClass().add("error-dialog");
+        }
         return dialogBox;
     }
 }
